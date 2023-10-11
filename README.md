@@ -1,5 +1,4 @@
-# Website rao vặt
-# https of github: https://github.com/ThangB1906766/ChoTot.git
+#### Website bán đồ dùng cũ cho sinh viên note ####
 #1. Cài đặt, phân chia folder, controller , view Backend và Frontend
 - Tạo project: composer create-project laravel/laravel ten-project
 - Start server:  php artisan serve
