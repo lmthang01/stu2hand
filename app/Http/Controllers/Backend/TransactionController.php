@@ -30,7 +30,6 @@ class TransactionController extends Controller
 
     public function viewOrder(Request $request, $id)
     {
-
         // dd($request->all());
         if ($request->ajax()) {
 

@@ -109,16 +109,18 @@
     {{ $transactions->links() }}
     
     <div class="modal fade" id="myModelOrder" role="dialog">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-xl">
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Chi tiết đơn hàng #<b class="transaction_id"></b></h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
+                
                 <div class="modal-body" id="md_content">
                     {{-- Dùng js qua --}}
                 </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
                 </div>

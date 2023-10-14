@@ -26,14 +26,15 @@
             border-bottom: 1px solid #dedede;
         }
     </style>
-     <link rel="stylesheet" href="{{ asset('assets/css/fontawesome-free-6.4.0-web/css/all.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/fontawesome-free-6.4.0-web/css/all.min.css') }}">
 
     {{-- Hiển thị ngày trong input CSS --}}
     <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
 
     {{-- Biểu đồ morris CSS --}}
     <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
-    
+
+    {{-- Chi tiết đơn hàng --}}
 
 </head>
 
@@ -171,7 +172,7 @@
 
     <!-- Icons -->
     <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
-    
+
     {{-- Chức năng Location --}}
     <script>
         feather.replace();
@@ -248,19 +249,17 @@
             event.preventDefault();
             let $this = $(this);
             let url = $this.attr('href');
-            
+
             $(".transaction_id").text('').text($this.attr('data-id'));
 
             $.ajax({
                 url: url,
-            }).done(function(result){
+            }).done(function(result) {
                 // console.log(result);
-                
-                if(result){
+                if (result) {
                     $("#md_content").html('').append(result);
                 }
             });
-            // console.log(url);
         });
     </script>
 
@@ -311,12 +310,14 @@
     </script>
     {{-- Xử lý alert form delete, submit end --}}
 
-    
+
 
     {{-- Biểu đồ Morris Script --}}
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
+
+    
 
     {{-- Xử lý chart, filter start --}}
     <script type="text/javascript">
