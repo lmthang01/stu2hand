@@ -13,21 +13,26 @@
                         <thead>
                             <tr>
                                 <th>STT</th>
-                                <th>Tên khách hàng</th>
-                                <th>Địa chỉ</th>
-                                <th>Số điện thoại</th>
+                                <th>Mã đơn hàng</th>
+                                <th>Người bán</th>
                                 <th>Tổng tiền</th>
                                 <th>Trạng thái</th>
+                                <th>Ngày mua</th>
                                 <th>Thao tác</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($transactions ?? [] as $transaction)
                                 <tr>
-                                    <td>{{ ++$i }}</td>
-                                    <td>{{ $transaction->user->name ?? '[N\A]' }}</td>
-                                    <td>{{ $transaction->tr_address }}</td>
-                                    <td>{{ $transaction->tr_phone }}</td>
+                                    <td class="text-center">{{ ++$i }}</td>
+                                    <td>DH{{ $transaction->id ?? 'NA'}}</td>
+
+                                    {{-- {{dd($transaction->userSale->name)}} --}}
+
+                                    <td>{{ $transaction->userSale->name ?? 'NA_product'}}</td>
+
+                                    {{-- {{dd($transaction->order)}} --}}
+
                                     <td>{{ number_format($transaction->tr_total, 0, ',', '.') }} VNĐ</td>
                                     <td>
                                         @if ($transaction->tr_status == 1)
@@ -41,6 +46,7 @@
                                             </span>
                                         @endif
                                     </td>
+                                    <td>{{$transaction->created_at ?? 'NA'}}</td>
                                     <td>
                                         <a href="{{ route('get_admin.transaction.viewOrder', $transaction->id) }}"
                                             class="btn btn-info js_order_item" data-toggle="modal"

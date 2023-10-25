@@ -13,13 +13,14 @@ class TransactionController extends Controller
 {
     public function index()
     {
-        $transactions = Transaction::with('user:id,name')
+        $transactions = Transaction::with('user', 'userSale')
                         ->where('tr_user_id', Auth::user()->id)
                         ->orderByDesc('id')->paginate(10);
 
         $viewData = [
             'transactions' => $transactions
         ];
+
         return view('frontend.transaction.index', $viewData)->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
@@ -40,6 +41,7 @@ class TransactionController extends Controller
     public function actionTransaction($id)
     {
         $transaction = Transaction::find($id);
+        
         $orders = Order::where('or_transaction_id', $id)->get();
 
         if ($orders) {

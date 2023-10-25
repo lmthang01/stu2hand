@@ -68,15 +68,6 @@
                                 {{ $item->getStatus($item->status)['name'] ?? 'Tạm dừng' }}
                             </span>
                         </td>
-                        {{-- <td>{{ $item->description }}</td> --}}
-                        {{-- <td>{{ $item->created_at->format('Y-m-d') }}</td> --}}
-                        {{-- <td>
-                            <a href="{{ route('get_admin.product.update', $item->id) }}" class="btn btn-info"
-                                style="padding: 5px">Edit</a>
-                            <a href="#">|</a>
-                            <a href="{{ route('get_admin.product.delete', $item->id) }}" class="btn btn-danger"
-                                style="padding: 5px" id="delete_alert">Delete</a>
-                        </td> --}}
                         <td>
                             <div class="product-more position-relative">
                                 <span class="justify-content-start">
@@ -85,17 +76,23 @@
                                 <div class="product-more-option">
                                     <ul class="mb-0" style="list-style: none;padding-left: 0px;">
                                         <li>
-                                            <a href="#" class="d-flex align-items-center p-2 text-decoration-none">
-                                                <p><i class="fa-regular fa-eye"></i> - Xem chi tiết</p> 
+                                            <a href="{{ route('get_admin.product.viewDetailProduct', $item->id) }}"
+                                                class="d-flex align-items-center p-2 text-decoration-none js_detail_product_item"
+                                                data-toggle="modal" data-id="{{ $item->id }}"
+                                                data-target="#myModelDetailProduct" style="padding: 5px" id="">
+                                                <p><i class="fa-regular fa-eye"></i> - Xem chi tiết</p>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="{{ route('get_admin.product.update', $item->id) }}" class="d-flex align-items-center p-2 text-decoration-none">
+                                            <a href="{{ route('get_admin.product.update', $item->id) }}"
+                                                class="d-flex align-items-center p-2 text-decoration-none">
                                                 <p><i class="fa-solid fa-pen"></i> - Cập nhật</p>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="{{ route('get_admin.product.delete', $item->id) }}" class="d-flex align-items-center p-2 text-decoration-none" id="delete_alert">
+                                            <a href="{{ route('get_admin.product.delete', $item->id) }}"
+                                                class="d-flex align-items-center p-2 text-decoration-none"
+                                                id="delete_alert">
                                                 <p><i class="fa-regular fa-trash-can"></i> - Xóa</p>
                                             </a>
                                         </li>
@@ -109,4 +106,22 @@
         </table>
     </div>
     {{ $products->links() }}
+
+    <div class="modal fade" id="myModelDetailProduct" role="dialog">
+        <div class="modal-dialog modal-xl">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Chi tiết sản phẩm</h4>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body" id="md_content_detail_product">
+                    {{-- Dùng js qua --}}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
 @stop

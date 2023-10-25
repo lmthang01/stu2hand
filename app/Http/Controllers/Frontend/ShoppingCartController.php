@@ -16,19 +16,10 @@ class ShoppingCartController extends Controller
 {
     public function addProduct(Request $request, $id)
     {
-        // dd($request->all());
 
         $product = Product::with('user:id,name,avatar')->select('name', 'id', 'price', 'avatar', 'slug', 'user_id')
             ->find($id);
         if (!$product) return redirect('/');
-
-        // Thêm giỏ hàng vào CSDL start
-        // Cart::store($product->name);
-
-        // To store a cart instance named 'wishlist'
-        // Cart::instance('wishlist')->store($product->name);
-
-        // Cart::content();
 
         // Thêm giỏ hàng vào CSDL end
         Cart::add([
@@ -79,8 +70,6 @@ class ShoppingCartController extends Controller
 
     public function saveInfoShoppingCart(Request $request)
     {
-        // dd($request->all());
-
         $data = $request->except("_token", 'payment');
 
         $data['data_user_id'] = \Auth::user()->id;
@@ -91,9 +80,12 @@ class ShoppingCartController extends Controller
 
         $user_id_sale_product = $request['user_id_sale_product'];
 
+        $data['user_id_sale_product'] =  $request['user_id_sale_product'];
+
         if ($request->payment == 2) {
 
             $allProducts  = Cart::content();
+            
             // Lọc ra các sản phẩm có user_id trùng nhau
             $products = $allProducts->filter(function ($item) use ($user_id_sale_product) {
                 return $item->options['user_id'] == $user_id_sale_product;
@@ -109,6 +101,7 @@ class ShoppingCartController extends Controller
             session(['info_customer' => $data]);
 
             return view('frontend.vnpay.index', compact('totalMoney'));
+            
         } else {
 
             $totalMoney = str_replace(',', '', Cart::subtotal(0, 3));
@@ -120,6 +113,8 @@ class ShoppingCartController extends Controller
                 'tr_note' => $request->note,
                 'tr_address' => $request->address,
                 'tr_phone' => $request->phone,
+                'tr_type_payment' => 1, // 0 là thanh toán online, 1 thanh toán khi nhận hàng
+                'tr_user_sale' =>  $request['user_id_sale_product'],
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
             ]);
@@ -162,6 +157,7 @@ class ShoppingCartController extends Controller
         require_once "./vnpay_php/config.php";
 
         $vnp_TxnRef = $_POST['order_id']; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
+        
         $vnp_OrderInfo = $_POST['order_desc'];
         $vnp_OrderType = $_POST['order_type'];
         $vnp_Amount = $_POST['amount'] * 100;
@@ -238,6 +234,10 @@ class ShoppingCartController extends Controller
                     'tr_note' => $data['note'],
                     'tr_address' => $data['address'],
                     'tr_phone' => $data['phone'],
+
+                    'tr_type_payment' => 0, // 0 thanh toan online
+                    'tr_user_sale' => $data['user_id_sale_product'],
+
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ]);

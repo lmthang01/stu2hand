@@ -7,7 +7,7 @@
                 <div class="breadcumb">
                     <a href="/">Trang chủ</a>
                     <span class="breadcumb-icon mx-1"><i class="fa-solid fa-angles-right"></i></span>
-                    <span>Tìm kiếm</span>
+                    <span>Sinh viên</span>
                 </div>
                 <h3 class="title">
                     <span>Danh sách tin đang đăng</span>

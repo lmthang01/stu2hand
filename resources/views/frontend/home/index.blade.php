@@ -133,7 +133,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <h3 class="title">
-                        Tin đăng dành cho bạn
+                        Đồ dùng dành cho bạn
                     </h3>
                 </div>
             </div>
@@ -155,7 +155,7 @@
                                         <a href="{{ route('get.product.by_slug', ['slug' => $item->slug]) }}"
                                             title="{{ $item->name }}" class="product-link">{{ $item->name }}</a>
                                     </h3>
-                                    <div class="product-more position-relative">
+                                    {{-- <div class="product-more position-relative">
                                         <span class="d-flex justify-content-start"><i
                                                 class="fa-solid fa-ellipsis-vertical"></i></span>
                                         <div class="product-more-option">
@@ -183,7 +183,7 @@
                                                 </li>
                                             </ul>
                                         </div>
-                                    </div>
+                                    </div> --}}
                                 </div>
                                 <span class="product-price ">
                                     {{ number_format($item->price, 0, ',', '.') }} đ
@@ -198,7 +198,7 @@
                                 {{-- <div class="dot-divider">
                                 </div> --}}
                                 <div class="product-time mx-1 d-flex align-items-center">
-                                    <span>{{ $item->created_at->diffForHumans() }} : </span> 
+                                    <span>{{ $item->created_at->diffForHumans() }} : </span>
                                     {{-- <span>{{ $item->created_at->format('d-m-Y') }}</span> --}}
                                 </div>
                                 {{-- <div class="dot-divider">
@@ -210,8 +210,9 @@
                         </div>
                     </div>
                 @endforeach
-
             </div>
+            {{ $productNews->links() }}
+
             <div class="row">
                 <div class="col-lg-12">
                     <h4 class="text-more">

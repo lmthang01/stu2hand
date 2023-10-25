@@ -17,13 +17,13 @@
                     <small id="emailHelp" class="form-text text-danger">{{ $errors->first('description') }}</small>
                 @enderror
             </div>
-            <div class="form-group">
+            {{-- <div class="form-group">
                 <label for="exampleInputEmail1">Nội dung</label>
                 <textarea name="content" id="" class="form-control" placeholder="Mô tả ..." cols="30" rows="3">{{ old('content', $product->content ?? '') }}</textarea>
                 @error('content')
                     <small id="emailHelp" class="form-text text-danger">{{ $errors->first('content') }}</small>
                 @enderror
-            </div>
+            </div> --}}
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
@@ -176,7 +176,7 @@
 
             $.ajax({
 
-                    url: "/admin/location/district",
+                    url: "/account/location/district",
                     data: {
 
                         province_id: province_id
@@ -196,13 +196,12 @@
                 });
         });
 
-        $("#loadDistrict").change(function() {
-
+        $("#districtsData").change(function() {
             let district_id = $(this).find(":selected").val();
 
             $.ajax({
 
-                    url: "/admin/location/district",
+                    url: "/account/location/ward",
                     data: {
 
                         district_id: district_id
@@ -212,7 +211,7 @@
                     }
                 })
                 .done(function(data) {
-                    console.log("------Data: ", data);
+                    // console.log("------Data: ", data);
 
                     let dataOptions = `<option value="">---Chọn phường xã---</option>`;
                     data.map(function(index, key) {

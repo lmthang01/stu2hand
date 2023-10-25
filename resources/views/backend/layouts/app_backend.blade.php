@@ -204,10 +204,11 @@
                     });
             });
             // Load quận huyện
-            $("#loadDistrict").change(function() {
+            $("#districtsData").change(function() {
                 let district_id = $(this).find(":selected").val();
+                
                 $.ajax({
-                        url: "/admin/location/district",
+                        url: "/admin/location/ward",
                         data: {
                             district_id: district_id
                         },
@@ -223,6 +224,8 @@
                     });
             });
         })
+
+
         //  Gủi mail
         $(".js-send-otp").click(function(event) {
             event.preventDefault();
@@ -244,7 +247,7 @@
             });
         });
 
-        // Gọi model xem chi tiết
+        // Gọi model xem chi tiết đơn hàng
         $(".js_order_item").click(function(event) {
             event.preventDefault();
             let $this = $(this);
@@ -255,12 +258,31 @@
             $.ajax({
                 url: url,
             }).done(function(result) {
-                // console.log(result);
+                console.log(result);
                 if (result) {
                     $("#md_content").html('').append(result);
                 }
             });
         });
+
+        // Gọi model xem chi tiết sản phẩm
+        $(".js_detail_product_item").click(function(event) {
+            event.preventDefault();
+            let $this = $(this);
+            let url = $this.attr('href');
+
+            $(".transaction_id").text('').text($this.attr('data-id'));
+
+            $.ajax({
+                url: url,
+            }).done(function(result) {
+                console.log(result);
+                if (result) {
+                    $("#md_content_detail_product").html('').append(result);
+                }
+            });
+        });
+        
     </script>
 
 
@@ -354,7 +376,7 @@
                         _token: _token,
                     },
                     success: function(data) {
-                        console.log("==> Data: ", data);
+                        // console.log("==> Data: ", data);
                         var dataParse = JSON.parse(data);
                         chart.setData(dataParse);
                     }

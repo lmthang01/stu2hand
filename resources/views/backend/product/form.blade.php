@@ -21,13 +21,13 @@
                     <small id="emailHelp" class="form-text text-danger">{{ $errors->first('description') }}</small>
                 @enderror
             </div>
-            <div class="form-group">
+            {{-- <div class="form-group">
                 <label for="exampleInputEmail1">Nội dung</label>
                 <textarea name="content" id="" class="form-control" placeholder="Nội dung" cols="30" rows="3">{{ old('content', $product->content ?? '') }}</textarea>
                 @error('content')
                     <small id="emailHelp" class="form-text text-danger">{{ $errors->first('content') }}</small>
                 @enderror
-            </div>
+            </div> --}}
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">

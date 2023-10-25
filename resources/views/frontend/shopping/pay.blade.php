@@ -6,7 +6,6 @@
                 <div class="d-flex justify-content-between align-items-center">
                     <h2>Thanh toán</h2>
                 </div>
-                {{-- CSS --}}
                 <link href="//netdna.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet"
                     id="bootstrap-css">
 
@@ -25,16 +24,14 @@
                                     $sum = 0;
                                 @endphp
                                 @foreach ($products as $key => $product)
+                                    <input type="hidden" name="key_of_product[]" class="form-control"
+                                        value="{{ $key }}" />
+                                    <input type="hidden" name="user_id_sale_product" class="form-control"
+                                        value="{{ $product->options->user_id }}" />
 
-                                    {{-- {{dd($product->options->user_id);}} --}}
+                                    {{-- {{dd($product->options)}} --}}
 
-                                    <input type="hidden" name="key_of_product[]" class="form-control" value="{{$key}}" />
-                                    <input type="hidden" name="user_id_sale_product" class="form-control" value="{{$product->options->user_id}}" />
-
-                                    {{-- {{ dump(get_data_user('web', 'name')) }} --}}
                                     <div class="panel-body">
-                                        {{-- @foreach ($products as $key => $item) --}}
-                                        {{-- {{dd($products)}} --}}
                                         <div class="form-group">
                                             <div class="col-sm-3 col-xs-3">
                                                 <img class="img-responsive"
@@ -97,7 +94,8 @@
                                         <div class="col-md-12"></div>
                                         <div class="col-md-12">
                                             <button type="submit" class="btn btn-primary">Thanh toán khi nhận hàng</button>
-                                            <button type="submit" name="payment" value="2" class="btn btn-primary">Thanh toán online</button>
+                                            <button type="submit" name="payment" value="2"
+                                                class="btn btn-primary">Thanh toán online</button>
                                         </div>
                                     </div>
                                 </div>
@@ -109,9 +107,7 @@
                 </div>
                 <div class="row cart-footer">
                 </div>
-
             </div>
-
             {{-- JS --}}
             <script src="//netdna.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
             <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>

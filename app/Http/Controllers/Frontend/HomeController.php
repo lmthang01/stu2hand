@@ -14,13 +14,14 @@ class HomeController extends Controller
 {
     public function index(){
 
-        $productNews = Product::with('user:id,name,avatar', 'province:id,name')->where('status', Product::STATUS_SUCCESS)
-        ->orderByDesc('id')
-        ->limit(18)
-        ->get();
+        $productNews = Product::with('user:id,name,avatar', 'province:id,name')->where('status', Product::STATUS_SUCCESS);
 
         $categories = Category::all();
         $slides = Slide::all();
+
+        $productNews = $productNews
+        ->orderByDesc('id')
+        ->paginate(10);
 
         $viewData = [
             'productNews' => $productNews,

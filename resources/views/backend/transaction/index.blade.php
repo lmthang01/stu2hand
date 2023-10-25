@@ -20,6 +20,7 @@
                 <thead>
                     <tr>
                         <th>STT</th>
+                        <th>Mã đơn hàng</th>
                         <th>Tên khách hàng</th>
                         <th>Địa chỉ</th>
                         <th>Số điện thoại</th>
@@ -33,6 +34,7 @@
                     @foreach ($transactions ?? [] as $transaction)
                         <tr>
                             <td>{{ ++$i }}</td>
+                            <td>DH{{ $transaction->id }}</td>
                             <td>{{ $transaction->user->name ?? '[N\A]' }}</td>
                             <td>{{ $transaction->tr_address }}</td>
                             <td>{{ $transaction->tr_phone }}</td>
@@ -66,13 +68,6 @@
                                     </ul>
                                 @endif
                             </td>
-                            {{-- <td>
-                                <a href="{{ route('get_admin.transaction.viewOrder', $transaction->id) }}"
-                                    class="btn btn-info js_order_item" data-toggle="modal" data-id="{{ $transaction->id }}"
-                                    data-target="#myModelOrder" style="padding: 5px" id="">Chi
-                                    tiết</a>
-                                <a href="#" class="btn btn-danger" style="padding: 5px" id="delete_alert">Delete</a>
-                            </td> --}}
                             <td>
                                 <div class="product-more position-relative">
                                     <span class="justify-content-start">
@@ -82,16 +77,21 @@
                                         <ul class="mb-0" style="list-style: none;padding-left: 0px;">
                                             <li>
                                                 <a href="{{ route('get_admin.transaction.viewOrder', $transaction->id) }}"
-                                                    class="d-flex align-items-center p-2 text-decoration-none js_order_item" data-toggle="modal" data-id="{{ $transaction->id }}"
-                                                    data-target="#myModelOrder" style="padding: 5px" id=""><p><i class="fa-regular fa-eye"></i> - Xem chi tiết</p> </a>
+                                                    class="d-flex align-items-center p-2 text-decoration-none js_order_item"
+                                                    data-toggle="modal" data-id="{{ $transaction->id }}"
+                                                    data-target="#myModelOrder" style="padding: 5px" id="">
+                                                    <p><i class="fa-regular fa-eye"></i> - Xem chi tiết</p>
+                                                </a>
                                             </li>
                                             <li>
-                                                <a href="#" class="d-flex align-items-center p-2 text-decoration-none">
+                                                <a href="#"
+                                                    class="d-flex align-items-center p-2 text-decoration-none">
                                                     <p><i class="fa-solid fa-pen"></i> - Cập nhật</p>
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="#  " class="d-flex align-items-center p-2 text-decoration-none" id="delete_alert">
+                                                <a href="#  " class="d-flex align-items-center p-2 text-decoration-none"
+                                                    id="delete_alert">
                                                     <p><i class="fa-regular fa-trash-can"></i> - Xóa</p>
                                                 </a>
                                             </li>
@@ -107,20 +107,18 @@
     </div>
 
     {{ $transactions->links() }}
-    
+
     <div class="modal fade" id="myModelOrder" role="dialog">
         <div class="modal-dialog modal-xl">
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Chi tiết đơn hàng #<b class="transaction_id"></b></h4>
+                    <h4 class="modal-title">Chi tiết đơn hàng</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
-                
                 <div class="modal-body" id="md_content">
                     {{-- Dùng js qua --}}
                 </div>
-
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
                 </div>

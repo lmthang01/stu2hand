@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
+
     use HasFactory;
     protected $table = 'orders';
     protected $guarded = [''];
@@ -20,4 +21,6 @@ class Order extends Model
     {
         return $this->belongsTo(Transaction::class, 'or_transaction_id');
     }
+
+
 }

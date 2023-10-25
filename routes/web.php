@@ -90,6 +90,8 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'middleware' => 'ch
 
         Route::get('delete/{id}', [ProductController::class, 'delete'])->name('get_admin.product.delete')->middleware('permission:full|product_delete');
         Route::get('delete-image/{id}', [ProductController::class, 'deleteImage'])->name('get_admin.product.delete_image')->middleware('permission:full|product_delete_image');
+
+        Route::get('/view/detailProduct/{id}', [ProductController::class, 'viewDetailProduct'])->name('get_admin.product.viewDetailProduct')->middleware('permission:full');
     });
     //Locations
     Route::group(['prefix' => 'location'], function () {
@@ -276,5 +278,10 @@ Route::group(['namespace' => 'User', 'prefix' => 'account'], function () {
         Route::get('list', [UserTransactionController::class, 'index'])->name('get.user.transaction.index');
         Route::get('/view/{id}', [UserTransactionController::class, 'viewOrder'])->name('get.user.transaction.viewOrder');
         Route::get('/active/{id}', [UserTransactionController::class, 'actionTransaction'])->name('get.user.transaction.active');
+    });
+
+    Route::group(['prefix' => 'location'], function () {
+        Route::get('district', [LocationController::class, 'district'])->name('get_admin.location.district');
+        Route::get('ward', [LocationController::class, 'ward'])->name('get_admin.location.ward');
     });
 });

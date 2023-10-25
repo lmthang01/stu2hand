@@ -6,9 +6,9 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcumb">
-                        <a href="#">Chợ tốt Xe</a>
+                        <a href="/">Trang chủ</a>
                         <span class="breadcumb-icon mx-1"><i class="fa-solid fa-angles-right"></i></span>
-                        <span>Xe máy</span>
+                        <span>Chi tiết sản phẩm</span>
                     </div>
                 </div>
             </div>
@@ -88,44 +88,8 @@
                         <h3 class="title">
                             Mô tả chi tiết
                         </h3>
-                        {!! $productDetail->content !!}
-                        {{-- <a href="#">Nhấn để hiện số</a> --}}
+                        {!! $productDetail->description !!}
                     </div>
-                    {{-- <div class="detail-product-parameter">
-                        <h3 class="title">
-                            Thông số kỹ thuật
-                        </h3>
-                        <div class="d-flex ">
-
-                            <div class="w-50">
-                                <span><i class="fa-regular fa-address-card"></i></span>
-                                <span class="ml-2">
-                                    Hãng xe: <a href="#">Honda</a>
-                                </span>
-                            </div>
-                            <div class="w-50">
-                                <span><i class="fa-regular fa-address-card"></i></span>
-                                <span class="ml-2">
-                                    Hãng xe: <a href="#">Honda</a>
-                                </span>
-                            </div>
-                        </div>
-                    </div> --}}
-                    {{-- <div class="detail-product-service">
-                        <h3 class="title">
-                            Các dịch vụ tiện ích
-                        </h3>
-                        <div class="d-flex">
-                            <a href="#" class="d-flex flex-column align-items-center mr-2">
-                                <img src="/assets/img/service.png" alt="" width="36px" class="mb-1">
-                                <span>Định giá xe cũ</span>
-                            </a>
-                            <a href="#" class="d-flex flex-column align-items-center mr-2">
-                                <img src="/assets/img/service.png" alt="" width="36px" class="mb-1">
-                                <span>Định giá xe cũ</span>
-                            </a>
-                        </div>
-                    </div> --}}
                 </div>
                 <div class="col-lg-4 no-padding">
                     <div class="sidebar">
@@ -205,29 +169,7 @@
                             <div class="chat">
                                 <div class="chat-title">
                                     <span>Liên hệ với người bán</span>
-                                    {{-- <span
-                                        style="color: #9b9b9b;
-                                    font-size: 12px;
-                                    display: flex;
-                                    font-weight: 400;">Phản
-                                        hồi</span> --}}
                                 </div>
-                                {{-- <div class="chat-main">
-                                    <ul class="list-chat">
-                                        <li class="item-chat">
-                                            Xe còn hay đã bán rồi ạ?
-                                        </li>
-                                        <li class="item-chat">
-                                            Xe còn hay đã bán rồi ạ?
-                                        </li>
-                                        <li class="item-chat">
-                                            Xe còn hay đã bán rồi ạ?
-                                        </li>
-                                        <li class="item-chat">
-                                            Xe còn hay đã bán rồi ạ?
-                                        </li>
-                                    </ul>
-                                </div> --}}
                             </div>
                             @if (Auth::check())
                                 @if (Auth::user()->id === $productDetail->user->id)
@@ -286,21 +228,6 @@
                                     </a>
                                 </div>
                             @endif
-                            {{-- <div class="lead-button">
-                                <a href="#" class="button-call d-flex">
-                                    <div>
-                                        <span><i class="fa-solid fa-phone-volume"></i></span>
-                                        <span class="ml-2 d-inline-block">{{ $productDetail->user->phone ?? '' }}</span>
-                                    </div>
-                                    <span>Số để gọi</span>
-                                </a>
-                                <a href="#" class="button-chat d-flex">
-                                    <div>
-                                        <span><i class="fa-brands fa-rocketchat"></i></span>
-                                    </div>
-                                    <span>Chat với người bán</span>
-                                </a>
-                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -334,7 +261,7 @@
                     <div class="detail-product-related">
                         <div class="detail-product-related-title">
                             <h3 class="title mb-0">
-                                Tin rao khác
+                                Đồ dùng khác
                             </h3>
                             {{-- <a href="#">Xem tất cả</a> --}}
                         </div>

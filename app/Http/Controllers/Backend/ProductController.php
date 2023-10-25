@@ -23,8 +23,7 @@ class ProductController extends Controller
 {
     public function index(Request $request)
     {
-        $products = Product::with('category:id,name', 'user:id,name', 'province:id,name', 'district:id,name', 'ward:id,name')
-            ->withCount('images');
+        $products = Product::with('category:id,name', 'user:id,name', 'province:id,name', 'district:id,name', 'ward:id,name')->withCount('images');
 
         if ($name = $request->n) // Tìm bằng tên
             $products->where('name', 'like', '%' . $name . '%');
@@ -309,5 +308,18 @@ class ProductController extends Controller
         if ($image) $image->delete();
 
         return redirect()->back();
+    }
+
+    public function viewDetailProduct(Request $request, $id)
+    {
+        // dd($request->all());
+        if ($request->ajax()) {
+
+            $products = Product::where('id', $id)->get();
+
+            $html = view('backend.components.product', compact('products'))->render();
+
+            return \response()->json($html);
+        }
     }
 }

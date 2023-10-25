@@ -44,7 +44,7 @@
                                     {{-- <td>{{ number_format($item->qty * $item->price) }} đ</td> --}}
                                     <td>
                                         <a href="{{ route('get.deleteProductItem', $key) }}"><i class="fa fa-trash"></i>
-                                            Delete </a>
+                                            Xóa </a>
                                         <a href="{{ route('get.getFormPay', $item->options->user_id) }}"><i
                                                 class="fa-brands fa-amazon-pay"></i>
                                             Thanh

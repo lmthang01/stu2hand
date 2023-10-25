@@ -16,6 +16,7 @@ return new class extends Migration
             $table->timestamps();
             $table->integer('tr_user_id')->index()->default(0);
             $table->integer('tr_total')->default(0);
+            $table->integer('tr_type_payemnt')->nullable()->default(0);
             $table->string('tr_note')->nullable();
             $table->string('tr_address')->nullable();
             $table->string('tr_phone')->nullable();

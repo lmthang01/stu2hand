@@ -82,7 +82,7 @@ class UserController extends Controller
                     $user->assignRole($request->roles);
 
                 // 1. Gửi mail không dùng queue
-                // Mail::to($user->email)->send(new SendEmailRegisterUser($user));
+                Mail::to($user->email)->send(new SendEmailRegisterUser($user));
 
                 // 2. Gửi mail dùng queue (rút ngắn thời gian)
                 // Mail::to($user->email)->queue(new SendEmailRegisterUser($user));

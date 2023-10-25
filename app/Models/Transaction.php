@@ -15,7 +15,7 @@ class Transaction extends Model
     const STATUS_DONE = 1;
     const STATUS_DEFAULT = 0;
 
-    public function user()
+    public function user() // Lấy tên người mua
     {
         return $this->belongsTo(User::class, 'tr_user_id');
     }
@@ -24,4 +24,10 @@ class Transaction extends Model
     {
         return $this->belongsTo(Payment::class, 'id', 'p_transaction_id');
     }
+
+    public function userSale() // Lấy tên người bán
+    {
+        return $this->belongsTo(User::class, 'tr_user_sale');
+    }
+
 }
