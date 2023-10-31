@@ -167,25 +167,30 @@
                                                     </a>
                                                 </li>
                                                 <li class="item-manage">
-                                                    <a href="{{route('get.user.transaction.index')}}" class="link-manage d-flex align-items-center">
-                                                        <img src="{{ asset('images/menu-saved-search.svg') }}" alt="Thêm mới"
-                                                            class="img-manage" width="24px" height="24px"
+                                                    <a href="{{ route('get.user.transaction.index') }}"
+                                                        class="link-manage d-flex align-items-center">
+                                                        <img src="{{ asset('images/menu-saved-search.svg') }}"
+                                                            alt="Thêm mới" class="img-manage" width="24px"
+                                                            height="24px"
                                                             style="object-fit: contain; margin-right: 12px;">
                                                         <span>Đơn mua</span>
                                                     </a>
                                                 </li>
-                                                {{-- <li class="item-manage">
-                                                    <a href="#" class="link-manage d-flex align-items-center">
+                                                <li class="item-manage">
+                                                    <a href="{{ route('get.user.transaction.index_sale') }}"
+                                                        class="link-manage d-flex align-items-center">
                                                         <img src="{{ asset('images/circle-list.svg') }}" alt="Thêm mới"
                                                             class="img-manage" width="24px" height="24px"
                                                             style="object-fit: contain; margin-right: 12px;">
-                                                        <span>Lịch sử mua hàng</span>
+                                                        <span>Đơn bán</span>
                                                     </a>
-                                                </li> --}}
+                                                </li>
                                                 <li class="item-manage">
-                                                    <a href="{{ route('get.listaddProduct') }}" class="link-manage d-flex align-items-center">
-                                                        <img src="{{ asset('images/menu-saved-ad.svg') }}" alt="Thêm mới"
-                                                            class="img-manage" width="24px" height="24px"
+                                                    <a href="{{ route('get.listaddProduct') }}"
+                                                        class="link-manage d-flex align-items-center">
+                                                        <img src="{{ asset('images/menu-saved-ad.svg') }}"
+                                                            alt="Thêm mới" class="img-manage" width="24px"
+                                                            height="24px"
                                                             style="object-fit: contain; margin-right: 12px;">
                                                         <span>Danh sách yêu thích</span>
                                                     </a>
@@ -240,7 +245,7 @@
     <div class="search-header">
         <div class="container">
             <div class="row">
-                <div class="col-lg-8">
+                <div class="col-lg-6">
                     <div class="search-item position-relative d-flex">
                         <form style="width: 100%" action="{{ route('get.search') }}">
                             <input type="text" name="k" value="{{ Request::get('k') }}"
@@ -251,21 +256,14 @@
                         </form>
                     </div>
                 </div>
-                <div class="col-lg-2 d-none d-md-block">
-                    <div class="create-news d-flex h-100">
-                        <a href="{{ route('get.listaddProduct') }}"
-                            class="btn-create w-100 d-flex align-items-center justify-content-center">
-                            <span
-                                class="btn-create-icon btn-create w-100 d-flex align-items-center justify-content-center"><span
-                                    class="btn-create-text ml-2">Yêu thích </span> <span
-                                    class="btn-create-text ml-2"><i class="fa-solid fa-heart"></i>
-                                    {{ \Cart::count() }}</span>
-                        </a>
-                    </div>
-                </div>
-                <div class="col-lg-2 d-none d-md-block">
+                <div class="col-lg-4 d-none d-md-block">
                     <div class="create-news d-flex h-100">
                         @if (Auth::check())
+                            <a target="_blank" href="{{ route('view_chat', Auth::user()->id) }}"
+                                class="btn-create w-100 d-flex align-items-center justify-content-center">
+                                <span class="btn-create-icon"><i class="fa-brands fa-rocketchat"></i></span>
+                                <span class="btn-create-text ml-2">Chat</span>
+                            </a>
                             <a href="{{ route('get.user.product_create') }}"
                                 class="btn-create w-100 d-flex align-items-center justify-content-center">
                                 <span class="btn-create-icon"><i class="fa-regular fa-pen-to-square"></i></span>
@@ -278,6 +276,18 @@
                                 <span class="btn-create-text ml-2">Đăng tin</span>
                             </a>
                         @endif
+                    </div>
+                </div>
+                <div class="col-lg-2 d-none d-md-block">
+                    <div class="create-news d-flex h-100">
+                        <a href="{{ route('get.listaddProduct') }}"
+                            class="btn-create w-100 d-flex align-items-center justify-content-center">
+                            <span
+                                class="btn-create-icon btn-create w-100 d-flex align-items-center justify-content-center"><span
+                                    class="btn-create-text ml-2">Yêu thích </span> <span
+                                    class="btn-create-text ml-2"><i class="fa-solid fa-heart"></i>
+                                    {{ \Cart::count() }}</span>
+                        </a>
                     </div>
                 </div>
             </div>

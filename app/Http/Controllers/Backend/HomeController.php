@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Product;
 use App\Models\Statistic;
+use App\Models\Transaction;
 use Carbon\Carbon;
 
 class HomeController extends Controller
@@ -25,6 +26,7 @@ class HomeController extends Controller
         $toltalUsers = User::select('id')->count();
         $toltalProduct = Product::select('id')->count();
         $toltalCategory = Category::select('id')->count();
+        $toltalOrder = Transaction::select('id')->count();
 
         $viewData = [
             'users' => $users,
@@ -32,6 +34,7 @@ class HomeController extends Controller
             'toltalUsers' => $toltalUsers,
             'toltalProduct' => $toltalProduct,
             'toltalCategory' => $toltalCategory,
+            'toltalOrder' => $toltalOrder,
         ];
 
         return view('backend.home.index', $viewData);

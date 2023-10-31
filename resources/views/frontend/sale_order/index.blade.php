@@ -4,8 +4,7 @@
         <div class="row mt-3" style="background-color: white;">
             <div class="col-lg-12 mt-2">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h2>Đơn mua</h2>
-                    {{-- <a href="#" class="btn btn-primary" style="color: azure;">Thêm mới</a> --}}
+                    <h2>Đơn bán</h2>
                     <a href="/" class="btn btn-primary">Trở về</a>
                 </div>
                 <div class="table-responsive">
@@ -14,7 +13,7 @@
                             <tr>
                                 <th>STT</th>
                                 <th>Mã đơn hàng</th>
-                                <th>Người bán</th>
+                                <th>Người mua</th>
                                 <th>Tổng tiền</th>
                                 <th>Trạng thái</th>
                                 <th>Ngày mua</th>
@@ -22,17 +21,11 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($transactions ?? [] as $transaction)
+                            @foreach ($transactions_sale ?? [] as $transaction)
                                 <tr>
                                     <td class="text-center">{{ ++$i }}</td>
                                     <td>DH{{ $transaction->id ?? 'NA'}}</td>
-
-                                    {{-- {{dd($transaction->userSale->name)}} --}}
-
-                                    <td>{{ $transaction->userSale->name ?? 'NA_product'}}</td>
-
-                                    {{-- {{dd($transaction->order)}} --}}
-
+                                    <td>{{ $transaction->user->name ?? 'NA_product'}}</td>
                                     <td>{{ number_format($transaction->tr_total, 0, ',', '.') }} VNĐ</td>
                                     <td>
                                         @if ($transaction->tr_status == 1)
@@ -41,7 +34,7 @@
                                             </span>
                                         @else
                                             <span class="badge badge-secondary">
-                                                <a href="#"
+                                                <a href="{{ route('get.user.transaction.active', $transaction->id) }}"
                                                     style="text-decoration: none; color: white">Chờ xử lý</a>
                                             </span>
                                         @endif
@@ -54,7 +47,7 @@
                                             style="padding: 5px" id="">Chi
                                             tiết</a>
                                         {{-- <a href="#" class="btn btn-danger" style="padding: 5px"
-                                            id="delete_alert">Delete</a> --}}
+                                            id="delete_alert">Delete</a> --}} 
                                     </td>
                                 </tr>
                             @endforeach
@@ -64,7 +57,7 @@
             </div>
         </div>
     </div>
-    {{ $transactions->links() }}
+    {{ $transactions_sale->links() }}
 
     <div class="modal fade" id="myModelOrder" role="dialog">
         <div class="modal-dialog modal-lg">

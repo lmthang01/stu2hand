@@ -58,8 +58,8 @@
                                         }
                                     }
                                 @endphp
-                                @if ($user->id == $productDetailOfUser)
-                                @else
+                                {{-- @if ($user->id == $productDetailOfUser) --}}
+                                {{-- @if --}}
                                     @if ($check == 0)
                                         <a href="{{ route('get.addProduct', $productDetail->id) }}" style="color: #007bff">
                                             <i class="fa-sharp fa-regular fa-heart"></i>
@@ -71,7 +71,7 @@
                                             <span style="font-size: 12px;">Hủy yêu thích</span>
                                         </a>
                                     @endif
-                                @endif
+                                {{-- @endif --}}
                             </div>
                         </div>
                         <div class="description">

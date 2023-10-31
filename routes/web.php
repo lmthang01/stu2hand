@@ -65,7 +65,7 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'middleware' => 'ch
 
         Route::get('delete/{id}', [CategoryController::class, 'delete'])->name('get_admin.category.delete')->middleware('permission:full|category_delete');
     });
-    
+
     // slides
     Route::group(['prefix' => 'slide'], function () {
         Route::get('', [SlideController::class, 'index'])->name('get_admin.slide.index')->middleware('permission:full|slide_index');
@@ -249,7 +249,6 @@ Route::group(['prefix' => 'gio-hang', 'middleware' => 'CheckLoginUser'], functio
     // VNpay
     Route::post('/payment/onnline', [ShoppingCartController::class, 'createPayment'])->name('onnline.createPayment');
     Route::get('/vnpay/return', [ShoppingCartController::class, 'vnpayReturn'])->name('vnpay.return');
-    
 });
 
 
@@ -273,10 +272,17 @@ Route::group(['namespace' => 'User', 'prefix' => 'account'], function () {
     // Chat
     Route::get('/{id}', [MessagesController::class, 'index_2'])->name('user_id_to_chat');
 
+    Route::get('chat/{id}', [MessagesController::class, 'index'])->name('view_chat');
+
     // Đơn hàng admin
     Route::group(['prefix' => 'transaction'], function () {
+        // Danh sách đơn mua
         Route::get('list', [UserTransactionController::class, 'index'])->name('get.user.transaction.index');
         Route::get('/view/{id}', [UserTransactionController::class, 'viewOrder'])->name('get.user.transaction.viewOrder');
+        Route::get('/active/{id}', [UserTransactionController::class, 'actionTransaction'])->name('get.user.transaction.active');
+        // Danh sach đơn bán
+        Route::get('listSale', [UserTransactionController::class, 'index_sale'])->name('get.user.transaction.index_sale');
+        // Xử lý đơn hàng phía sinh viên
         Route::get('/active/{id}', [UserTransactionController::class, 'actionTransaction'])->name('get.user.transaction.active');
     });
 

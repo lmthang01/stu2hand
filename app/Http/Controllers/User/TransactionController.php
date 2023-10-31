@@ -24,6 +24,19 @@ class TransactionController extends Controller
         return view('frontend.transaction.index', $viewData)->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
+    public function index_sale()
+    {
+        $transactions_sale = Transaction::with('user', 'userSale')
+                        ->where('tr_user_sale', Auth::user()->id)
+                        ->orderByDesc('id')->paginate(10);
+
+        $viewData = [
+            'transactions_sale' => $transactions_sale
+        ];
+
+        return view('frontend.sale_order.index', $viewData)->with('i', (request()->input('page', 1) - 1) * 10);
+    }
+
     public function viewOrder(Request $request, $id)
     {
 
@@ -57,4 +70,6 @@ class TransactionController extends Controller
         toastr()->success('Xử lý thành công!', 'Thông báo', ['timeOut' => 1000]);
         return redirect()->back();
     }
+
+    
 }
