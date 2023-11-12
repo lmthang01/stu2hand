@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers\Backend;
 
+use App\Events\MyEvent;
+use App\Events\Notify;
 use App\Models\Product;
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\SendMessageController as ControllersSendMessageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Carbon\Carbon;
@@ -16,6 +19,8 @@ use App\Models\Statistic;
 use \Illuminate\Support\Facades\File;
 use \Illuminate\Support\Facades\DB;
 use \Illuminate\Support\Facades\Auth;
+
+use App\Http\SendMessageController;
 
 
 
@@ -243,6 +248,32 @@ class ProductController extends Controller
             }
 
             // Thống kế end
+
+            // Notification start
+            if ($request->status == 2 || $request->status == -1) {
+                // Tạo thông báo số lượng tin nhắn đến start
+                // Tạo thông báo số lượng tin nhắn đến start
+                $options = array(
+                    'cluster' => 'ap1',
+                    'useTLS' => true
+                );
+                $pusher = new \Pusher\Pusher(
+                    '38c38539be23e63dee8d',
+                    '6597b271b5b771f7d677',
+                    '1616521',
+                    $options
+                );
+
+                $data['message'] = 'hello world';
+                $pusher->trigger('my-channel', 'my-event', $data);
+                event(new MyEvent("message sent"));
+                // Tạo thông báo số lượng tin nhắn đến end
+
+                // Tạo thông báo số lượng tin nhắn đến end
+                $sendMessageController = new ControllersSendMessageController();
+                $sendMessageController->sendMessage($request);
+            }
+            // Notification end
 
             Product::find($id)->update($data);
 

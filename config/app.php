@@ -171,6 +171,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         // ShoppingCart
         Gloudemans\Shoppingcart\ShoppingcartServiceProvider::class
+        
     ])->toArray(),
 
     /*

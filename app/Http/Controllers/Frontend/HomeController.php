@@ -7,8 +7,8 @@ use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Slide;
-
-
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -30,5 +30,10 @@ class HomeController extends Controller
         ];
 
         return view('frontend.home.index', $viewData);
+    }
+
+    public function checkUnseenMessage(){
+        $unseenCounter = DB::table('ch_messages')->where('to_id','=', Auth::user()->id)->where('seen','=','0')->count();
+        return response()->json(["unseenCounter" => $unseenCounter]);
     }
 }

@@ -75,10 +75,12 @@
                         @foreach ($orders as $key => $order)
                             <tr>
                                 <td>{{ ++$i }}</td>
+
                                 <td>
                                     <img src="{{ isset($order->product->avatar) ? pare_url_file($order->product->avatar) : '' }}"
                                         style="width: 60px;height: 60px; border-radius: 10px" alt="">
                                 </td>
+                                
                                 <td>
                                     {{ isset($order->product->avatar) ? $order->product->name : '' }}
                                 </td>

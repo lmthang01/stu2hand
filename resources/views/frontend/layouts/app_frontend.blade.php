@@ -13,6 +13,17 @@
     <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/css/responsive.css') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
+
+    {{-- Notifications start --}}
+    {{-- <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous"> --}}
+    {{-- <link rel="stylesheet" type="text/css"
+        href="https://skywalkapps.github.io/bootstrap-notifications/stylesheets/bootstrap-notifications.css"> --}}
+    {{-- Notifications end --}}
+
+    {{-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"> --}}
+
+
 </head>
 
 <body>
@@ -166,7 +177,7 @@
             </div>
         </div>
     </footer>
-    <div class="footer-mobile d-block d-md-none">
+    {{-- <div class="footer-mobile d-block d-md-none">
         <div class="footer-mobile-top px-2">
             <div class="d-flex align-items-center justify-content-between">
 
@@ -230,16 +241,27 @@
                 <img src="/assets/img/certificate.webp" alt="">
             </div>
         </div>
-    </div>
+    </div> --}}
 
-    <script src="https://code.jquery.com/jquery-3.6.4.js" integrity="sha256-a9jBBRygX1Bh5lt8GZjXDzyOB+bWve9EiO7tROUtj/E="
-        crossorigin="anonymous"></script>
-    <script src="{{ asset('assets/css/bootstrap-4.0.0-dist/js/bootstrap.min.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+    <script src="{{ asset('theme_admin/js/popper.min.js') }}"></script>
+
+    {{-- <script src="{{ asset('theme_admin/js/bootstrap.min.js') }}"></script> --}}
+
     <script src="{{ asset('assets/css/OwlCarousel2-2.3.4/dist/owl.carousel.min.js') }}"></script>
+
     <script src="{{ asset('assets/js/main.js') }}"></script>
+
+    <script src="{{ asset('assets/css/bootstrap-4.0.0-dist/js/bootstrap.min.js') }}"></script>
+
+    {{-- Bootstrap cho nút thông báo --}}
+    <script src="https://js.pusher.com/4.3/pusher.min.js"></script>
+
     {{-- Confirm delete --}}
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     {{-- Xử lý alert form delete, submit start --}}
+
     <script type="text/javascript">
         $(function() {
             $(document).on('click', '#delete_alert', function(e) {
@@ -263,6 +285,7 @@
 
             })
         });
+
         $('#alert_form_submit').submit(function(e) {
             e.preventDefault();
             Swal.fire({
@@ -278,26 +301,167 @@
                 }
             })
         });
-        
+
+        // Gọi model xem chi tiết đơn hàng start
         $(".js_order_item").click(function(event) {
+
+            // alert("Nhấn chi tiết")
             event.preventDefault();
             let $this = $(this);
             let url = $this.attr('href');
+
             $(".transaction_id").text('').text($this.attr('data-id'));
 
             $.ajax({
                 url: url,
             }).done(function(result) {
-                // console.log(result);
-
+                console.log(result);
                 if (result) {
                     $("#md_content").html('').append(result);
                 }
             });
+        });
+        // Gọi model xem chi tiết đơn hàng end
 
-            // console.log(url);
+        $(".notification-icon").click(function(event) {
+            // Thực hiện hành động bạn muốn khi biểu tượng được click
+            console.log("Biểu tượng thông báo đã được click!");
+            // event.preventDefault();
+            $(".dropdown-container").toggleClass("show");
         });
     </script>
+
     {{-- Xử lý alert form delete, submit end --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var notificationsWrapper = $('.dropdown-notifications');
+            var notificationsToggle = notificationsWrapper.find('a[data-toggle]');
+            var notificationsCountElem = notificationsToggle.find('i[data-count]');
+            var notificationsCount = parseInt(notificationsCountElem.data('count'));
+            var notifications = notificationsWrapper.find('ul.dropdown-menu');
+            Pusher.logToConsole = true;
+            var pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
+                cluster: 'ap1',
+                encrypted: true
+            });
+            var channel = pusher.subscribe('Notify');
+            // Gọi AJAX để lấy dữ liệu khi trang web được load
+            $.ajax({
+                method: 'GET',
+                url: '{{ route('getData') }}',
+                success: function(response) {
+                    var messages = response.messages;
+                    messages.forEach(function(message) {
+                        var timestamp = moment(message.created_at).fromNow();
+                        var newNotificationHtml = `
+                            <li class="notification active">
+                                <div class="media">
+                                    <div class="media-left mt-2">
+                                        <div class="media-object">
+                                            <img src="${message.avatar}" class="img-circle" alt="50x50" style="width: 50px; height: 50px; ">
+                                        </div>
+                                    </div>
+                                    <div class="media-body ml-3">
+                                        <strong class="notification-title">${message.title}</strong>
+                                        <p class="notification-desc">${message.content}</p>
+                                        <div class="notification-meta">
+                                            <small class="timestamp">${timestamp}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        `;
+                        notifications.prepend(newNotificationHtml);
+                        notificationsCount += 1;
+                        notificationsCountElem.attr('data-count', notificationsCount);
+                        notificationsWrapper.find('.notif-count').text(notificationsCount);
+                        notificationsWrapper.show();
+                    });
+                },
+                error: function(error) {
+                    console.error('Lỗi khi lấy dữ liệu:', error);
+                }
+            });
+
+            var channel2 = pusher.subscribe('my-channel');
+            channel2.bind('my-event', function(data) {
+                notifications.empty();
+                $.ajax({
+                    method: 'GET',
+                    url: '/getData',
+                    data: {},
+                    success: function(response) {
+                        var messages = response.messages;
+                        messages.forEach(function(message) {
+                            var timestamp = moment(message.created_at).fromNow();
+                            var newNotificationHtml = `
+                            <li class="notification active">
+                                <div class="media">
+                                    <div class="media-left">
+                                        <div class="media-object  mt-2">
+                                            <img src="${message.avatar}" class="img-circle" alt="50x50" style="width: 50px; height: 50px;">
+                                        </div>
+                                    </div>
+                                    <div class="media-body ml-3">
+                                        <strong class="notification-title">${message.title}</strong>
+                                        <p class="notification-desc">${message.content}</p>
+                                        <div class="notification-meta">
+                                            <small class="timestamp">${timestamp}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        `;
+                            notifications.prepend(newNotificationHtml);
+                            notificationsCount2 = notificationsCount + 1;
+                            notificationsCountElem.attr('data-count',
+                                notificationsCount2);
+                            notificationsWrapper.find('.notif-count').text(
+                                notificationsCount2);
+                            notificationsWrapper.show();
+                        });
+                    },
+                    error: function(error) {
+                        console.error('Lỗi khi lấy dữ liệu:', error);
+                    }
+                });
+            });
+        });
+    </script>
+    {{-- Notifications end --}}
+
+    {{-- Notifications chatify start --}}
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+    <script>
+        Pusher.logToConsole = true;
+        var pusher = new Pusher('38c38539be23e63dee8d', {
+            cluster: 'ap1'
+        });
+        var channel = pusher.subscribe('my-channel');
+        channel.bind('my-event', function(data) {
+            // alert("Hí ae");
+            $.ajax({
+                type: 'GET',
+                url: '/updateunseenmessage',
+                data: {},
+                success: function(data) {
+                    // console.log("Hí ae " + data.unseenCounter);
+                    $('.pending-notification').empty();
+                    html = ``;
+                    if (data.unseenCounter > 0) {
+                        html += `<i data-count="${data.unseenCounter}"
+                                    class="fa-brands fa-rocketchat notification-icon"></i>`;
+                    } else {
+                        html += `<i data-count="0"
+                                    class="fa-brands fa-rocketchat notification-icon"></i>`;
+                    }
+                    $('.pending-notification').html(html);
+                },
+            });
+        });
+    </script>
+    {{-- Notifications chatify end --}}
 </body>
+
 </html>

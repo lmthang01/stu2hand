@@ -247,7 +247,7 @@
             });
         });
 
-        // Gọi model xem chi tiết đơn hàng
+        // Gọi model xem chi tiết đơn hàng start
         $(".js_order_item").click(function(event) {
             event.preventDefault();
             let $this = $(this);
@@ -264,6 +264,7 @@
                 }
             });
         });
+        // Gọi model xem chi tiết đơn hàng end
 
         // Gọi model xem chi tiết sản phẩm
         $(".js_detail_product_item").click(function(event) {

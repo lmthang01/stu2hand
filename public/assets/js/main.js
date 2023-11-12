@@ -107,11 +107,12 @@ product_more.forEach(function(item){
 
 let open_profile_user = document.querySelector('.open-profile-user')
 let profile_user_mobile = document.querySelector('.profile-user-mobile')
-open_profile_user.onclick = function (e){
-    e.preventDefault()
-    this.classList.toggle('active')
-    profile_user_mobile.classList.toggle('active')
-}
+
+// open_profile_user.onclick = function (e){
+//     e.preventDefault()
+//     this.classList.toggle('active')
+//     profile_user_mobile.classList.toggle('active')
+// }
 
 
 // Lấy đối tượng nút mở Popup

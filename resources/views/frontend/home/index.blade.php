@@ -23,7 +23,7 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="category">
-                        <h3 class="title">Khám phá danh mục</h3>
+                        <h3 class="title">Khám phá danh mục </h3>
                         <ul class="list-category owl-carousel position-relative">
                             @foreach ($categories->chunk(1) ?? [] as $category)
                                 <li class="col-category d-flex flex-column align-items-center">
@@ -59,7 +59,8 @@
                         <div class="product-item ">
                             <div class="product-thumbnail position-relative">
                                 <a href="{{ route('get.product.by_slug', ['slug' => $item->slug]) }}">
-                                    <img src="{{ pare_url_file($item->avatar) }}" alt="{{ $item->name }}" width="100%">
+                                    <img src="{{ pare_url_file($item->avatar) }}" alt="{{ $item->name }}"
+                                        width="100%">
                                 </a>
                             </div>
                             <div class="product-caption">
@@ -101,4 +102,45 @@
             </div>
         </div>
     </div>
+    {{-- Notifications chatify start --}}
+
+    <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+
+    {{-- <script>
+        // Enable pusher logging - don't include this in production
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
+            cluster: 'ap1',
+            encrypted: true
+        });
+
+        // console.log("Tới đây nè");
+
+        var channel = pusher.subscribe('my-channel');
+
+        channel.bind('my-event', function(data) {
+            // alert("Hí ae");
+            $.ajax({
+                type: 'GET',
+                url: '/updateunseenmessage',
+                data: {
+
+                },
+                success: function(data){
+                    
+                    console.log(data.unseenCounter);
+
+                    $('.pending-div').empty();
+                    html = ``;
+                    if(data.unseenCounter > 0){
+                        html += `<span style="right:68px;" class="pending-notification-chat">${data.unseenCounter}`
+                    }
+                    $('.pending-div').html(html);
+                },
+            });
+        });
+    </script> --}}
+
+    {{-- Notifications chatify end --}}
 @stop
