@@ -25,11 +25,11 @@
                             @foreach ($transactions ?? [] as $transaction)
                                 <tr>
                                     <td class="text-center">{{ ++$i }}</td>
-                                    <td>DH{{ $transaction->id ?? 'NA'}}</td>
+                                    <td>DH{{ $transaction->id ?? 'NA' }}</td>
 
                                     {{-- {{dd($transaction->userSale->name)}} --}}
 
-                                    <td>{{ $transaction->userSale->name ?? 'NA_product'}}</td>
+                                    <td>{{ $transaction->userSale->name ?? 'NA_product' }}</td>
 
                                     {{-- {{dd($transaction->order)}} --}}
 
@@ -41,12 +41,11 @@
                                             </span>
                                         @else
                                             <span class="badge badge-secondary">
-                                                <a href="#"
-                                                    style="text-decoration: none; color: white">Chờ xử lý</a>
+                                                <a href="#" style="text-decoration: none; color: white">Chờ xử lý</a>
                                             </span>
                                         @endif
                                     </td>
-                                    <td>{{$transaction->created_at ?? 'NA'}}</td>
+                                    <td>{{ $transaction->created_at ?? 'NA' }}</td>
                                     <td>
                                         <a href="{{ route('get.user.transaction.viewOrder', $transaction->id) }}"
                                             class="btn btn-info js_order_item" data-toggle="modal"
@@ -71,11 +70,11 @@
             <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Chi tiết đơn hàng #<b class="transaction_id"></b></h4>
+                    <h4 class="modal-title">Chi tiết đơn hàng</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body" id="md_content">
-
+                    {{-- Dùng js qua --}}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Đóng</button>
@@ -83,5 +82,4 @@
             </div>
         </div>
     </div>
-
 @stop

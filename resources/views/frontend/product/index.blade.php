@@ -60,17 +60,17 @@
                                 @endphp
                                 {{-- @if ($user->id == $productDetailOfUser) --}}
                                 {{-- @if --}}
-                                    @if ($check == 0)
-                                        <a href="{{ route('get.addProduct', $productDetail->id) }}" style="color: #007bff">
-                                            <i class="fa-sharp fa-regular fa-heart"></i>
-                                            <span style="font-size: 12px;">Yêu thích</span>
-                                        </a>
-                                    @else
-                                        <a href="{{ route('get.deleteFavourite', $key) }}" style="color: #007bff">
-                                            <i class="fa-solid fa-heart"></i>
-                                            <span style="font-size: 12px;">Hủy yêu thích</span>
-                                        </a>
-                                    @endif
+                                @if ($check == 0)
+                                    <a href="{{ route('get.addProduct', $productDetail->id) }}" style="color: #007bff">
+                                        <i class="fa-sharp fa-regular fa-heart"></i>
+                                        <span style="font-size: 12px;">Yêu thích</span>
+                                    </a>
+                                @else
+                                    <a href="{{ route('get.deleteFavourite', $key) }}" style="color: #007bff">
+                                        <i class="fa-solid fa-heart"></i>
+                                        <span style="font-size: 12px;">Hủy yêu thích</span>
+                                    </a>
+                                @endif
                                 {{-- @endif --}}
                             </div>
                         </div>
@@ -233,26 +233,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="lead-button-mobile">
-        <a href="#" class="chat-btn">
-            <span class="chat-btn-icon">
-                <img src="/assets/img/chat.png" alt="" width="20px" height="20px">
-            </span>
-            <span>Chat</span>
-        </a>
-        <a href="#" class="sms-btn">
-            <span class="chat-btn-icon">
-                <img src="/assets/img/chat.png" alt="" width="20px" height="20px">
-            </span>
-            <span>Chat</span>
-        </a>
-        <a href="#" class="call-btn">
-            <span class="chat-btn-icon">
-                <img src="/assets/img/call.png" alt="" width="20px" height="20px">
-            </span>
-            <span class="ml-2">Gọi điện</span>
-        </a>
     </div>
     <div class="detail-product-related-wrapper">
         <div class="container">

@@ -2,6 +2,7 @@
 
 namespace Chatify\Http\Controllers\Api;
 
+use App\Events\MyEvent;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Response;
@@ -144,6 +145,7 @@ class MessagesController extends Controller
             $messageData = Chatify::parseMessage($message);
 
             // send to user using pusher
+            
             if (Auth::user()->id != $request['id']) {
                 Chatify::push("private-chatify.".$request['id'], 'messaging', [
                     'from_id' => Auth::user()->id,
@@ -152,6 +154,8 @@ class MessagesController extends Controller
                 ]);
             }
         }
+
+        // event(new MyEvent("message sent"));
 
         // send the response
         return Response::json([

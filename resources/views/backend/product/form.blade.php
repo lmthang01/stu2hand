@@ -2,9 +2,18 @@
     <div class="row mb-5">
         <div class="col-sm-8">
             @csrf
-            {{-- Lấy dữ liệu order_date của sản phẩm dùng cho thống kê --}}
+            {{-- Lấy dữ liệu order_date của sản phẩm dùng cho thống kê start --}}
             <input type="hidden" name="order_date" value="{{ $product->order_date ?? '' }}">
             <input type="hidden" name="product_id" value="{{ $product->id ?? '' }}">
+            {{-- Lấy dữ liệu order_date của sản phẩm dùng cho thống kê end --}}
+
+            {{-- Lấy dữ liệu để thông báo notification start --}}
+            <input type="hidden" name="from_user_id" value="{{ Auth::id() ?? '0' }}">
+            <input type="hidden" name="to_user_id" value="{{ $product->user->id ?? '0' }}">
+
+            {{-- <input type="hidden" name="avatar" value="{{ $product->user->id ?? '0' }}"> --}}
+
+            {{-- Lấy dữ liệu để thông báo notification end --}}
 
             <div class="form-group">
                 <label for="exampleInputEmail1">Tên sản phẩm</label>
@@ -127,8 +136,6 @@
                             <option disabled value="3">Đã bán</option>
                             <option selected value="-1">Hủy bỏ</option>
                         @endif
-                        {{-- <option value="{{ $key }}" {{ ($product->status ?? 0) == $key ? 'selected' : '' }}>
-                            {{ $item['name'] }}</option> --}}
                     @endforeach
                     @if (($product->status ?? 0) == 0)
                         <option selected value="1">Khởi tạo</option>
@@ -144,11 +151,12 @@
                 @enderror
             </div>
             <div class="form-group">
-                <label for="exampleInputPassword1">Hình ảnh</label>
+                <label for="">Hình ảnh</label>
                 <input type="file" class="form-control" name="avatar">
                 @if (isset($product->avatar) && $product->avatar)
                     <img src="{{ pare_url_file($product->avatar) }}"
                         style="width: 60px; height: 60px; border-radius: 10px; margin-top: 10px" alt="">
+                    <input type="hidden" name="notification_avatar" value="{{ pare_url_file($product->avatar) }}">
                 @endif
             </div>
         </div>

@@ -22,6 +22,7 @@ use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Frontend\ShoppingCartController;
 use App\Http\Controllers\Frontend\TransactionController as FrontendTransactionController;
 use App\Http\Controllers\Frontend\VerifyAccountController;
+use App\Http\Controllers\SendMessageController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User;
@@ -202,6 +203,11 @@ Route::group(['namespace' => 'Fontend'], function () {
 
     Route::get('', [HomeController::class, 'index'])->name('get.home');
 
+    Route::get('/updateunseenmessage', [HomeController::class, 'checkUnseenMessage']);
+
+    Route::get('/getData', [SendMessageController::class, 'getData'])->name('getData');
+
+
     Route::get('dang-nhap', [FrontendAuthController::class, 'login'])->name('get.login');
     Route::post('dang-nhap', [FrontendAuthController::class, 'postLogin']);
 
@@ -274,11 +280,15 @@ Route::group(['namespace' => 'User', 'prefix' => 'account'], function () {
 
     Route::get('chat/{id}', [MessagesController::class, 'index'])->name('view_chat');
 
+    // Route::post('/sendMessage', [MessagesController::class, 'send'])->name('send.message');
+
     // Đơn hàng admin
     Route::group(['prefix' => 'transaction'], function () {
         // Danh sách đơn mua
         Route::get('list', [UserTransactionController::class, 'index'])->name('get.user.transaction.index');
+
         Route::get('/view/{id}', [UserTransactionController::class, 'viewOrder'])->name('get.user.transaction.viewOrder');
+        
         Route::get('/active/{id}', [UserTransactionController::class, 'actionTransaction'])->name('get.user.transaction.active');
         // Danh sach đơn bán
         Route::get('listSale', [UserTransactionController::class, 'index_sale'])->name('get.user.transaction.index_sale');
@@ -291,3 +301,8 @@ Route::group(['namespace' => 'User', 'prefix' => 'account'], function () {
         Route::get('ward', [LocationController::class, 'ward'])->name('get_admin.location.ward');
     });
 });
+
+Route::post('/postMessage', [SendMessageController::class, 'sendMessage'])->name('postMessage');
+Route::get('/send', [SendMessageController::class, 'index'])->name('send');
+
+// Route::get('/getData', [SendMessageController::class, 'getData'])->name('getData');

@@ -41,6 +41,7 @@ class TransactionController extends Controller
     {
 
         // dd($request->all());
+
         if ($request->ajax()) {
 
             $orders = Order::with('product', 'transaction')->where('or_transaction_id', $id)->get();

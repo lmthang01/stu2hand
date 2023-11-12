@@ -12,7 +12,7 @@
         <div class="col-sm-3">
             <div class="box p-3 mb-2 bg-danger text-white rounded text-center">
                 <a href="{{ route('get_admin.product.index') }}" class="text-decoration-none">
-                    <h5 class="text-white">Tin đăng <b>{{ $toltalProduct }}</b></h5>
+                    <h5 class="text-white">Sản phẩm <b>{{ $toltalProduct }}</b></h5>
                 </a>
             </div>
         </div>

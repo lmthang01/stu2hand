@@ -2,7 +2,7 @@
 @section('content_chat')
     <div class="container">
         <div class="row">
-            <div class="col-lg-12">
+            <div class="col-lg-12" style="max-height: 700px; overflow-y: auto; overflow: hidden;" >
                 @include('Chatify::layouts.headLinks')
                 <div class="messenger">
                     {{-- ----------------------Users/Groups lists side---------------------- --}}
@@ -10,8 +10,8 @@
                         {{-- Header and search bar --}}
                         <div class="m-header">
                             <nav>
-                                <a href="#"><i class="fas fa-inbox"></i> <span
-                                        class="messenger-headTitle">CHAT</span> </a>
+                                <a href="#"><i class="fas fa-inbox"></i> <span class="messenger-headTitle">CHAT</span>
+                                </a>
                                 {{-- header buttons --}}
                                 {{-- <nav class="m-header-right">
                                     <a href="#"><i class="fas fa-cog settings-btn"></i></a>
@@ -24,7 +24,7 @@
                             {{-- <div class="messenger-listView-tabs">
                 <a href="#" class="active-tab" data-view="users">
                     <span class="far fa-user"></span> Contacts</a>
-            </div> --}}
+                </div> --}}
                         </div>
                         {{-- tabs and lists --}}
                         <div class="m-body contacts-container">
