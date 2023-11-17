@@ -49,7 +49,9 @@ class UserController extends Controller
     {
 
         $userType = UserType::all();
+
         $roles = Role::all();
+        
         $roleActive = $userHasType = [];
 
 

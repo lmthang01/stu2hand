@@ -36,7 +36,6 @@ class LocationController extends Controller
         if ($request->ajax()) {
             return response()->json($wards);
         }
-
         return  $wards;
     }
 }

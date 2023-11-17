@@ -36,24 +36,47 @@
                                     <td>{{ number_format($transaction->tr_total, 0, ',', '.') }} VNĐ</td>
                                     <td>
                                         @if ($transaction->tr_status == 1)
-                                            <span class="badge badge-success">
+                                            <span class="badge badge-warning">
                                                 <a href="#" style="text-decoration: none; color: white">Đã xử lý</a>
                                             </span>
+                                            <span class="justify-content-start">
+                                                <i class="fa-solid fa-check"></i></span>
+                                        @elseif ($transaction->tr_status == 2)
+                                            <span class="badge badge-primary">
+                                                <a href="#" style="text-decoration: none; color: white">Đang vận
+                                                    chuyển</a>
+                                            </span>
+                                            <span class="justify-content-start">
+                                                <i class="fa-solid fa-check"></i></span>
+                                        @elseif ($transaction->tr_status == 3)
+                                            <span class="badge badge-success">
+                                                <a href="#" style="text-decoration: none; color: white">Đã giao</a>
+                                            </span>
+                                            <span class="justify-content-start">
+                                                <i class="fa-solid fa-check"></i></span>
+                                            <span class="badge badge-success">
+                                                <a href="#" style="text-decoration: none; color: white">Đã nhận</a>
+                                            </span>
+                                        @elseif($transaction->tr_status == -1)
+                                            <span class="badge badge-danger">
+                                                <a href="#" style="text-decoration: none; color: white">Đã hủy</a>
+                                            </span>
+                                            <span class="justify-content-start">
+                                                <i class="fa-solid fa-check"></i></span>
                                         @else
                                             <span class="badge badge-secondary">
                                                 <a href="#" style="text-decoration: none; color: white">Chờ xử lý</a>
                                             </span>
+                                            <span class="justify-content-start">
+                                                <i class="fa-solid fa-check"></i></span>
                                         @endif
                                     </td>
                                     <td>{{ $transaction->created_at ?? 'NA' }}</td>
                                     <td>
                                         <a href="{{ route('get.user.transaction.viewOrder', $transaction->id) }}"
-                                            class="btn btn-info js_order_item" data-toggle="modal"
-                                            data-id="{{ $transaction->id }}" data-target="#myModelOrder"
-                                            style="padding: 5px" id="">Chi
-                                            tiết</a>
-                                        {{-- <a href="#" class="btn btn-danger" style="padding: 5px"
-                                            id="delete_alert">Delete</a> --}}
+                                            class="js_order_item" data-toggle="modal" data-id="{{ $transaction->id }}"
+                                            data-target="#myModelOrder" style="padding: 5px" id=""><i
+                                                class="fa-solid fa-eye"></i></a>
                                     </td>
                                 </tr>
                             @endforeach

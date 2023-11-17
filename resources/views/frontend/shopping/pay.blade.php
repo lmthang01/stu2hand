@@ -67,9 +67,20 @@
                                 <div class="panel-heading">Thông tin thanh toán</div>
                                 <div class="panel-body">
                                     <div class="form-group">
-                                        <div class="col-md-12"><strong>Địa chỉ:</strong></div>
+                                        <div class="col-md-6"><strong>Địa chỉ:</strong>
+                                        </div>
+                                        <div class="col-md-6 text-right">
+                                            <a href="{{ route('get.user.update_profile') }}">Thay đổi</a>
+                                        </div>
                                         <div class="col-md-12">
-                                            <input type="text" name="address" class="form-control" value="" />
+                                            <input type="text" name="address" class="form-control"
+                                                value="{{ $profile->address_detail ?? '' }} - {{ $profile->ward->name ?? '...' }} - {{ $profile->district->name ?? '...' }} - {{ $profile->province->name ?? '...' }}" />
+
+                                            @error('address')
+                                                <small id="emailHelp"
+                                                    class="form-text text-danger">{{ $errors->first('address') }}</small>
+                                            @enderror
+
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -77,12 +88,21 @@
                                         <div class="col-md-12">
                                             <input type="text" name="email" class="form-control"
                                                 value="{{ get_data_user('web', 'email') }}" />
+                                            @error('email')
+                                                <small id="emailHelp"
+                                                    class="form-text text-danger">{{ $errors->first('email') }}</small>
+                                            @enderror
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-md-12"><strong>Số điện thoại: </strong></div>
                                         <div class="col-md-12"><input type="text" name="phone" class="form-control"
-                                                value="{{ get_data_user('web', 'phone') }}" /></div>
+                                                value="{{ get_data_user('web', 'phone') }}" />
+                                            @error('phone')
+                                                <small id="phoneHelp"
+                                                    class="form-text text-danger">{{ $errors->first('phone') }}</small>
+                                            @enderror
+                                        </div>
                                     </div>
                                     <div class="form-group">
                                         <div class="col-md-12"><strong>Ghi chú:</strong></div>

@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Frontend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SaveInfoShoppingCart;
 use App\Models\Order;
 use App\Models\Payment;
 use App\Models\Product;
+use App\Models\Profile;
 use App\Models\Transaction;
 use Carbon\Carbon;
 use Gloudemans\Shoppingcart\Facades\Cart;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ShoppingCartController extends Controller
@@ -47,11 +50,20 @@ class ShoppingCartController extends Controller
     {
         $allProducts  = Cart::content();
         // Lọc ra các sản phẩm có user_id trùng nhau
+
         $products = $allProducts->filter(function ($item) use ($user_id) {
             return $item->options['user_id'] == $user_id;
         });
 
-        return view('frontend.shopping.pay', compact('products'));
+        $user = Auth::user();
+
+        $profile = Profile::where('user_id', $user->id)
+            ->where('status', 1)
+            ->first();
+
+        // dd($profile);
+
+        return view('frontend.shopping.pay', compact('products', 'profile'));
     }
 
     public function deleteProductItem($key)
@@ -68,46 +80,31 @@ class ShoppingCartController extends Controller
         return redirect()->back();
     }
 
-    public function saveInfoShoppingCart(Request $request)
+    public function saveInfoShoppingCart(SaveInfoShoppingCart $request)
     {
         $data = $request->except("_token", 'payment');
-
-        $data['data_user_id'] = \Auth::user()->id;
-
+        $data['data_user_id'] = Auth::user()->id;
         $data['data_total_money'] = str_replace(',', '', Cart::subtotal(0, 3));
-
         $data['crated_at'] = Carbon::now();
-
         $user_id_sale_product = $request['user_id_sale_product'];
-
         $data['user_id_sale_product'] =  $request['user_id_sale_product'];
-
+        // Thanh toán online payment = 2
         if ($request->payment == 2) {
-
             $allProducts  = Cart::content();
-            
             // Lọc ra các sản phẩm có user_id trùng nhau
             $products = $allProducts->filter(function ($item) use ($user_id_sale_product) {
                 return $item->options['user_id'] == $user_id_sale_product;
             });
-
             $sum = 0;
             foreach ($products as $key => $product) {
                 $sum += $product->price;
             }
-
             $totalMoney = $sum;
-
             session(['info_customer' => $data]);
-
             return view('frontend.vnpay.index', compact('totalMoney'));
-            
         } else {
-
             $totalMoney = str_replace(',', '', Cart::subtotal(0, 3));
-
             $transactionId = Transaction::insertGetId([
-
                 'tr_user_id' => get_data_user('web'),
                 'tr_total' => (int)$totalMoney,
                 'tr_note' => $request->note,
@@ -120,11 +117,8 @@ class ShoppingCartController extends Controller
             ]);
 
             if ($transactionId) {
-
                 $products = Cart::content();
-
                 $formKeys = $request->input('key_of_product');
-
                 foreach ($products as $key => $product) {
                     if (in_array($key, $formKeys)) {
                         Order::insert([
@@ -136,6 +130,14 @@ class ShoppingCartController extends Controller
                             'updated_at' => Carbon::now(),
                         ]);
                         Cart::remove($key);
+                    }
+                }
+                $orders = Order::where('or_transaction_id', $transactionId)->get();
+                if ($orders) {
+                    foreach ($orders as $order) {
+                        $product = Product::find($order->or_product_id);
+                        $product->status = Product::STATUS_FINISH; // Cậo nhật trạng thái HIỂN THỊ
+                        $product->save();
                     }
                 }
             }
@@ -157,7 +159,7 @@ class ShoppingCartController extends Controller
         require_once "./vnpay_php/config.php";
 
         $vnp_TxnRef = $_POST['order_id']; //Mã đơn hàng. Trong thực tế Merchant cần insert đơn hàng vào DB và gửi mã này sang VNPAY
-        
+
         $vnp_OrderInfo = $_POST['order_desc'];
         $vnp_OrderType = $_POST['order_type'];
         $vnp_Amount = $_POST['amount'] * 100;
@@ -208,25 +210,21 @@ class ShoppingCartController extends Controller
             'code' => '00', 'message' => 'success', 'data' => $vnp_Url
         );
 
+        // dd($vnp_Url);
         return redirect($vnp_Url);
     }
 
     public function vnpayReturn(Request $request)
     {
-
         // dd($request->all());
-
         if (session()->has('info_customer') && $request->vnp_ResponseCode == "00") {
-
             DB::beginTransaction();
-
             try {
-
                 $vnpayData = $request->all();
-
                 $vnpayData['vnp_Amount'] = ($vnpayData['vnp_Amount']) / 100;
-
                 $data = session()->get('info_customer');
+
+                // dd($data);
 
                 $transactionID = Transaction::insertGetId([
                     'tr_user_id' => $data['data_user_id'],
@@ -234,20 +232,17 @@ class ShoppingCartController extends Controller
                     'tr_note' => $data['note'],
                     'tr_address' => $data['address'],
                     'tr_phone' => $data['phone'],
-
                     'tr_type_payment' => 0, // 0 thanh toan online
                     'tr_user_sale' => $data['user_id_sale_product'],
-
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ]);
-
-
                 if ($transactionID) {
-
                     $shopping = Cart::content();
                     $formKeys = $data['key_of_product'];
+
                     // Gửi mail xác nhận đặt hàng ??
+
                     foreach ($shopping as $key => $item) {
                         // Lưu chi tiết đơn hàng
                         if (in_array($key, $formKeys)) {
@@ -263,7 +258,6 @@ class ShoppingCartController extends Controller
                         }
                     }
                 }
-
                 $dataPayment = [
                     'p_transaction_id' => $transactionID,
                     'p_transaction_code' => $vnpayData['vnp_TxnRef'],
@@ -277,17 +271,14 @@ class ShoppingCartController extends Controller
                     'created_at' => Carbon::now(),
                     'updated_at' => Carbon::now(),
                 ];
-
                 Payment::insert($dataPayment);
-
                 toastr()->success('Đặt hàng thành công!', 'Thông báo', ['timeOut' => 1000]);
-
                 DB::commit();
 
                 return view('frontend.vnpay.vnpay_return', compact('vnpayData'));
             } catch (\Exception $exception) {
                 toastr()->error('Đặt hàng thất bại!', 'Thông báo', ['timeOut' => 1000]);
-                \DB::rollBack();
+                DB::rollBack();
                 return redirect()->to('/');
             }
         } else {

@@ -30,6 +30,8 @@ class ProductController extends Controller
     {
         $products = Product::with('category:id,name', 'user:id,name', 'province:id,name', 'district:id,name', 'ward:id,name')->withCount('images');
 
+        // dd($products);
+
         if ($name = $request->n) // Tìm bằng tên
             $products->where('name', 'like', '%' . $name . '%');
 

@@ -12,7 +12,7 @@ class TransactionController extends Controller
 {
     public function index(Request $request)
     {
-        $transactions = Transaction::with('user:id,name', 'payment');
+        $transactions = Transaction::with('user:id,name', 'payment', 'userSale:id,name');
 
         // dd($transactions);
         if ($name = $request->n) // Tìm bằng tên

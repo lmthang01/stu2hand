@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ProductRequest extends FormRequest
+class AddressUser extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,9 +22,6 @@ class ProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|unique:products,name,' . $this->id . "|max:255",
-            'description' => 'required',
-            'category_id' => 'required',
             'province_id' => 'required',
             'district_id' => 'required',
             'ward_id' => 'required',
@@ -34,13 +31,10 @@ class ProductRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.unique' => 'Tên sản phẩm đã tồn tại!',
-            'name.required' => 'Tên sản phẩm không được để trống!',
-            'category_id.required' => 'Danh mục không được để trống!',
-            'description.required' => 'Mô tả không được để trống!',
             'province_id.required' => 'Không được để trống!',
-            'district_id.required' => 'Không không được để trống!',
+            'district_id.required' => 'Không được để trống!',
             'ward_id.required' => 'Không được để trống!',
+
         ];
     }
 }

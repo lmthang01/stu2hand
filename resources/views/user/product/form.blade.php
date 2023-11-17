@@ -36,6 +36,9 @@
                                     {{ $item->name }}</option>
                             @endforeach
                         </select>
+                        @error('province_id')
+                            <small id="" class="form-text text-danger">{{ $errors->first('province_id') }}</small>
+                        @enderror
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -47,6 +50,9 @@
                                 <option value="{{ $key }}" selected>{{ $item }}</option>
                             @endforeach
                         </select>
+                        @error('district_id')
+                            <small id="" class="form-text text-danger">{{ $errors->first('district_id') }}</small>
+                        @enderror
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -58,6 +64,9 @@
                                 <option value="{{ $key }}" selected>{{ $item }}</option>
                             @endforeach
                         </select>
+                        @error('ward_id')
+                            <small id="" class="form-text text-danger">{{ $errors->first('ward_id') }}</small>
+                        @enderror
                     </div>
                 </div>
             </div>

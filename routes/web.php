@@ -254,15 +254,32 @@ Route::group(['prefix' => 'gio-hang', 'middleware' => 'CheckLoginUser'], functio
 
     // VNpay
     Route::post('/payment/onnline', [ShoppingCartController::class, 'createPayment'])->name('onnline.createPayment');
+
     Route::get('/vnpay/return', [ShoppingCartController::class, 'vnpayReturn'])->name('vnpay.return');
 });
 
 
 //  User account
 Route::group(['namespace' => 'User', 'prefix' => 'account'], function () {
-    Route::get('update-profile', [UserProfileController::class, 'profile'])->name('get.user.update_profile');
+
+    // Route::get('update-profile', [UserProfileController::class, 'profile'])->name('get.user.update_profile');
+
+    Route::get('update-profile', [UserProfileController::class, 'index'])->name('get.user.update_profile');
+
+    Route::get('create-address', [UserProfileController::class, 'create'])->name('get.user.update_profile.create-address');
+    Route::post('create-address', [UserProfileController::class, 'store']);
+
+
+
+    Route::get('address/update/{id}', [UserProfileController::class, 'editAddress'])->name('get.address_update');
+
+    Route::post('address/update/{id}', [UserProfileController::class, 'updateAddress']);
+
+    Route::get('address/delete/{id}', [UserProfileController::class, 'deleteAddress'])->name('get.address_delete');
+
 
     Route::post('update-profile', [UserProfileController::class, 'updateProfile']);
+
     Route::get('product', [UserProductController::class, 'index'])->name('get.user.product_index');
 
     Route::get('product/create', [UserProductController::class, 'create'])->name('get.user.product_create');
@@ -288,12 +305,15 @@ Route::group(['namespace' => 'User', 'prefix' => 'account'], function () {
         Route::get('list', [UserTransactionController::class, 'index'])->name('get.user.transaction.index');
 
         Route::get('/view/{id}', [UserTransactionController::class, 'viewOrder'])->name('get.user.transaction.viewOrder');
-        
-        Route::get('/active/{id}', [UserTransactionController::class, 'actionTransaction'])->name('get.user.transaction.active');
-        // Danh sach đơn bán
-        Route::get('listSale', [UserTransactionController::class, 'index_sale'])->name('get.user.transaction.index_sale');
+
         // Xử lý đơn hàng phía sinh viên
         Route::get('/active/{id}', [UserTransactionController::class, 'actionTransaction'])->name('get.user.transaction.active');
+        Route::get('/cancel/{id}', [UserTransactionController::class, 'actionCancel'])->name('get.user.transaction.cancel');
+        Route::get('/shipping/{id}', [UserTransactionController::class, 'actionShipping'])->name('get.user.transaction.shipping');
+        Route::get('/finish/{id}', [UserTransactionController::class, 'actionFinish'])->name('get.user.transaction.finish');
+
+        // Danh sach đơn bán
+        Route::get('listSale', [UserTransactionController::class, 'index_sale'])->name('get.user.transaction.index_sale');
     });
 
     Route::group(['prefix' => 'location'], function () {

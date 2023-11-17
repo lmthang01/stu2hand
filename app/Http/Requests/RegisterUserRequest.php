@@ -22,10 +22,13 @@ class RegisterUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required',
+            'name' => 'required|unique:users,name,' .$this->id,
             'email' => 'required|unique:users,email,' .$this->id,
             'phone' => 'required',
-            'password' => 'required'
+            'password' => 'required',
+            'province_id' => 'required',
+            'district_id' => 'required',
+            'ward_id' => 'required',
 
         ];
     }
@@ -34,10 +37,14 @@ class RegisterUserRequest extends FormRequest
     {
         return [
             'name.required' => 'Tên không được để trống!',
+            'name.unique' => 'Tên đã tồn tại!',
             'email.unique' => 'Email đã tồn tại!',
             'email.required' => 'Email không được để trống!',
             'phone.required' => 'Số điện thoại không được để trống!',
             'password.required' => 'Mật khẩu thoại không được để trống!',
+            'province_id.required' => 'Không được để trống!',
+            'district_id.required' => 'Không được để trống!',
+            'ward_id.required' => 'Không được để trống!',
 
         ];
     }

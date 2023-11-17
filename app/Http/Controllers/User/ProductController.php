@@ -25,6 +25,7 @@ class ProductController extends Controller
         $products = Product::with('category:id,name', 'user:id,name', 'province:id,name', 'district:id,name', 'ward:id,name')
             ->where('user_id', Auth::user()->id) // Check tài khoản nào đang login
             ->withCount('images');
+
         if ($name = $request->n)
             $products->where('name', 'like', '%' . $name . '%');
         if ($s = $request->status)
@@ -32,8 +33,10 @@ class ProductController extends Controller
         $products = $products
             ->orderByDesc('id')
             ->paginate(5);
+
         $model  = new Product();
         $status = $model->getStatus();
+
         $viewData = [
             'products' => $products,
             'query'    => $request->query(),
@@ -41,6 +44,7 @@ class ProductController extends Controller
         ];
         return view('user.product.index', $viewData)->with('i', (request()->input('page', 1) - 1) * 5);
     }
+
     public function create()
     {
         $categories = Category::all();
@@ -115,10 +119,13 @@ class ProductController extends Controller
     {
         $categories = Category::all();
         $provinces = Province::all();
+
         $product = Product::where('user_id', Auth::user()->id)->findOrFail($id);
+
         // Hiển thị district
         $activeDistricts = DB::table('districts')->where('id', $product->district_id)->pluck('name', 'id')->toArray();
         $activeWards = DB::table('wards')->where('id', $product->ward_id)->pluck('name', 'id')->toArray();
+
         $images = ProductImage::where('product_id', $id)->orderByDesc('id')->get();
         $viewData = [
             'product' => $product,

@@ -17,37 +17,69 @@
                                 <th>Tổng tiền</th>
                                 <th>Trạng thái</th>
                                 <th>Ngày mua</th>
-                                <th>Thao tác</th>
+                                <th>Chi tiết</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($transactions_sale ?? [] as $transaction)
                                 <tr>
                                     <td class="text-center">{{ ++$i }}</td>
-                                    <td>DH{{ $transaction->id ?? 'NA'}}</td>
-                                    <td>{{ $transaction->user->name ?? 'NA_product'}}</td>
+                                    <td>DH{{ $transaction->id ?? 'NA' }}</td>
+                                    <td>{{ $transaction->user->name ?? 'NA_product' }}</td>
                                     <td>{{ number_format($transaction->tr_total, 0, ',', '.') }} VNĐ</td>
                                     <td>
                                         @if ($transaction->tr_status == 1)
-                                            <span class="badge badge-success">
-                                                <a href="#" style="text-decoration: none; color: white">Đã xử lý</a>
+                                            <span class="badge badge-warning">
+                                                <a href="{{ route('get.user.transaction.shipping', $transaction->id) }}"
+                                                    style="text-decoration: none; color: white">Đã xử lý</a>
                                             </span>
+                                            <span class="justify-content-start">
+                                                <i class="fa-regular fa-pen-to-square fa-3 icon"></i>
+                                            </span>
+                                        @elseif ($transaction->tr_status == 2)
+                                            <span class="badge badge-primary">
+                                                <a href="{{ route('get.user.transaction.finish', $transaction->id) }}"
+                                                    style="text-decoration: none; color: white">Đang vận
+                                                    chuyển</a>
+                                            </span>
+                                            <span class="justify-content-start">
+                                                <i class="fa-regular fa-pen-to-square fa-3 icon"></i>
+                                            </span>
+                                        @elseif ($transaction->tr_status == 3)
+                                            <span class="badge badge-success">
+                                                <a href="#" style="text-decoration: none; color: white">Đã giao</a>
+                                            </span>
+                                            <span class="justify-content-start">
+                                                <i class="fa-solid fa-check"></i></span>
+                                        @elseif($transaction->tr_status == -1)
+                                            <span class="badge badge-danger">
+                                                <a href="#" style="text-decoration: none; color: white">Đã hủy</a>
+                                            </span>
+                                            <span class="justify-content-start">
+                                                <i class="fa-solid fa-check"></i></span>
                                         @else
                                             <span class="badge badge-secondary">
                                                 <a href="{{ route('get.user.transaction.active', $transaction->id) }}"
                                                     style="text-decoration: none; color: white">Chờ xử lý</a>
                                             </span>
+                                            <span class="justify-content-start">
+                                                <i class="fa-regular fa-pen-to-square fa-3 icon"></i>
+                                            </span>
+                                            <span class="badge badge-danger">
+                                                <a href="{{ route('get.user.transaction.cancel', $transaction->id) }}"
+                                                    style="text-decoration: none; color: white">Hủy</a>
+                                            </span>
+                                            <span class="justify-content-start">
+                                                <i class="fa-regular fa-pen-to-square fa-3 icon"></i>
+                                            </span>
                                         @endif
                                     </td>
-                                    <td>{{$transaction->created_at ?? 'NA'}}</td>
+                                    <td>{{ $transaction->created_at ?? 'NA' }}</td>
                                     <td>
                                         <a href="{{ route('get.user.transaction.viewOrder', $transaction->id) }}"
-                                            class="btn btn-info js_order_item" data-toggle="modal"
-                                            data-id="{{ $transaction->id }}" data-target="#myModelOrder"
-                                            style="padding: 5px" id="">Chi
-                                            tiết</a>
-                                        {{-- <a href="#" class="btn btn-danger" style="padding: 5px"
-                                            id="delete_alert">Delete</a> --}} 
+                                            class="js_order_item" data-toggle="modal" data-id="{{ $transaction->id }}"
+                                            data-target="#myModelOrder" style="padding: 5px" id=""><i
+                                                class="fa-solid fa-eye"></i></a>
                                     </td>
                                 </tr>
                             @endforeach
