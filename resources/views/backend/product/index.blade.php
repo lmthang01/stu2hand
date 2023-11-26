@@ -105,6 +105,7 @@
             </tbody>
         </table>
     </div>
+    
     {{ $products->links() }}
 
     <div class="modal fade" id="myModelDetailProduct" role="dialog">

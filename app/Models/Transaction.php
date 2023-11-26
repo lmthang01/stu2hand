@@ -12,8 +12,15 @@ class Transaction extends Model
     protected $table = 'transactions';
     protected $guarded = [''];
 
-    const STATUS_DONE = 1;
-    const STATUS_DEFAULT = 0;
+    const STATUS_DEFAULT = 0; // Chờ xử lý
+    const STATUS_DONE = 1; // Đã xử lý
+    const STATUS_SHIPPING = 2; // Đang vận chuyển
+    const STATUS_FINISH = 3; // Hoàn thành
+
+    const STATUS_RECEIVED = 4; // Đã nhận
+    const STATUS_CANCEL = -1; // Hủy đơn hàng
+
+
 
     public function user() // Lấy tên người mua
     {
@@ -29,5 +36,4 @@ class Transaction extends Model
     {
         return $this->belongsTo(User::class, 'tr_user_sale');
     }
-
 }

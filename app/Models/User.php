@@ -26,7 +26,8 @@ class User extends Authenticatable
         'status',
         'phone',
         'address',
-        'avatar'
+        'avatar',
+        'last_login_at'
     ];
 
     /**

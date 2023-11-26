@@ -8,6 +8,7 @@ use App\Http\Requests\RegisterUserRequest;
 use App\Http\Requests\UpdateNewPassword;
 use App\Mail\SendEmailResetPassword;
 use App\Mail\SendMailResetPassword;
+use App\Models\Province;
 use App\Models\UserType;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -20,13 +21,13 @@ use Symfony\Component\Mailer\Messenger\SendEmailMessage;
 
 class AuthController extends Controller
 {
-    public function login(){
+    public function login()
+    {
         return view('frontend.auth.login');
     }
 
     public function postLogin(Request $request)
     {
-
         // dd($request->all());
         $credentials = [
             'email' => $request->email,
@@ -40,11 +41,19 @@ class AuthController extends Controller
         return redirect()->back();
     }
 
-    public function register(){
-        return view('frontend.auth.register');
+    public function register()
+    {
+
+        $provinces  = Province::all();
+        $viewData = [
+            'provinces' => $provinces,
+        ];
+        return view('frontend.auth.register', $viewData);
     }
 
-    public function postRegister(RegisterUserRequest $request){
+    public function postRegister(RegisterUserRequest $request)
+    {
+        // dd($request->all());
         try {
             DB::beginTransaction();
             $data = $request->except('_token', 'avatar', 'user_type'); // Lấy dữ liệu từ $request gửi lên trừ _token và avatar
@@ -52,9 +61,9 @@ class AuthController extends Controller
             $data['password'] = bcrypt($request->password); // Mã hóa password
             $data['status'] = $request->status ?? 1;
 
-            if($request->avatar){
+            if ($request->avatar) {
                 $file = upload_image('avatar');
-                if(isset($file['code']) && $file['code'] == 1){
+                if (isset($file['code']) && $file['code'] == 1) {
                     $data['avatar'] = $file['name'];
                 }
             }
@@ -62,23 +71,40 @@ class AuthController extends Controller
             $userType = UserType::where('name', User::ROLE_USER)->first();
 
             $user = User::create($data);
-            if($user){
+
+            if ($user) {
                 DB::table('user_has_types')->insert([
                     'user_type_id' => $userType->id,
                     'created_at' => Carbon::now(),
                     'user_id' => $user->id
                 ]);
+
+                // dd($request->all());
+
+                DB::table('profile')->insert([
+                    'province_id' => $request->province_id,
+                    'district_id' => $request->district_id,
+                    'ward_id' => $request->ward_id,
+                    'user_id' => $user->id,
+                    'address_detail' => $request->address_detail,
+                    'created_at' => Carbon::now(),
+                    'status' => 1,
+                ]);
             }
+
             DB::commit();
         } catch (\Exception $exception) {
             DB::rollBack();
-            Log::error("ERROR => AuthController@store => ". $exception->getMessage());
-            return redirect()->route('get_admin.user.index');
+            Log::error("ERROR => AuthController@store => " . $exception->getMessage());
+            toastr()->error('Đăng ký thất bại!', 'Thông báo', ['timeOut' => 2000]);
+            return redirect()->route('get.register');
         }
-        return redirect()->route('get.home');
+        toastr()->warning('Đăng ký thành công!', 'Thông báo', ['timeOut' => 2000]);
+        return redirect()->route('get.login');
     }
 
-    public function logout(Request $request){
+    public function logout(Request $request)
+    {
         Auth::logout();
 
         $request->session()->invalidate();
@@ -88,12 +114,14 @@ class AuthController extends Controller
         return redirect()->route('get.login');
     }
 
-    public function restartPassword(){
+    public function restartPassword()
+    {
 
         return view('frontend.auth.restart_password');
     }
 
-    public function checkRestartPassword(CheckEmailRequest $request ){
+    public function checkRestartPassword(CheckEmailRequest $request)
+    {
 
         $email = $request->email;
         $user = User::where('email', $email)->first();
@@ -115,7 +143,7 @@ class AuthController extends Controller
             return redirect()->back();
         }
 
-        $link = route('get.new_password',['token' => $token]);
+        $link = route('get.new_password', ['token' => $token]);
 
         Mail::to($user->email)
             ->cc('thangb1906766@gmail.com')
@@ -169,5 +197,4 @@ class AuthController extends Controller
         toastr()->success('Đổi mật khẩu thành công, xin vui lòng đăng nhập lại!', 'Thông báo', ['timeOut' => 2000]);
         return  redirect()->route('get.login');
     }
-    
 }

@@ -129,6 +129,13 @@
                                 Đơn hàng
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link {{ Request::segment(2) == 'recharge' ? 'active' : '' }}"
+                                href="{{ route('get_admin.recharge.index') }}">
+                                <span data-feather="menu"></span>
+                                Danh sách nạp tiền
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </nav>
@@ -206,7 +213,7 @@
             // Load quận huyện
             $("#districtsData").change(function() {
                 let district_id = $(this).find(":selected").val();
-                
+
                 $.ajax({
                         url: "/admin/location/ward",
                         data: {
@@ -283,7 +290,6 @@
                 }
             });
         });
-        
     </script>
 
 
@@ -340,7 +346,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 
-    
+
 
     {{-- Xử lý chart, filter start --}}
     <script type="text/javascript">

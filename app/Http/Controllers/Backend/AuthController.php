@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginAdminRequest;
+use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -19,17 +21,14 @@ class AuthController extends Controller
 
     public function postLogin(LoginAdminRequest $request)
     {
-
-        // dd($request->all());
         $credentials = [
             'email' => $request->email,
             'password' =>  $request->password,
         ];
-
         if (Auth::attempt($credentials)) {
+
             return redirect()->route('get_admin.home');
         }
-
         return redirect()->back();
     }
 

@@ -22,8 +22,8 @@ class CategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|unique:categories,name,'.$this->id,
-            'description' => 'required',
+            'name' => 'required|unique:categories,name,'.$this->id.'|max:50|min:5',
+            'description' => 'required|max:50|min:5',
         ];
     }
 
@@ -31,8 +31,12 @@ class CategoryRequest extends FormRequest
     {
         return [
             'name.unique' => 'Tên danh mục đã tồn tại!',
+            'name.min' => 'Tên tối thiểu 5 ký tự!',
+            'name.max' => 'Tên tối đa 50 ký tự!',
             'name.required' => 'Tên danh mục không được để trống!',
             'description.required' => 'Mô tả không được để trống!',
+            'description.max' => 'Mô tả tối đa 50 ký tự!',
+            'description.min' => 'Mô tả tối thiểu 5 ký tự!',
         ];
     }
 }

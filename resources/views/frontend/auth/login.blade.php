@@ -38,10 +38,8 @@
                                 @enderror
                             </div>
                             <div class="form-group">
-                                {{-- {{ route('get.register') }} --}}
-                                <p>Bạn chưa có tài khoản? đăng ký <a href="#">tại đây</a></p>
-                                {{-- {{ route('get.restart_password') }} --}}
-                                <p>Quên mật khẩu? cấp lại <a href="#">tại đây</a></p>
+                                <p>Bạn chưa có tài khoản? đăng ký <a href="{{ route('get.register') }}">tại đây</a></p>
+                                <p>Quên mật khẩu? cấp lại <a href="{{ route('get.restart_password') }}">tại đây</a></p>
                                 <button type="submit" class="btn btn-primary">Đăng nhập</button>
                             </div>
                         </div>

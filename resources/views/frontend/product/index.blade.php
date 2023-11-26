@@ -47,31 +47,36 @@
                             <p class="product-detail-price">{{ number_format($productDetail->price, 0, ',', '.') }} đ</p>
                             <div class="btn">
                                 @php
-                                    $user = auth()->user();
-                                    $productDetailOfUser = $productDetail->user->id;
+                                    $user = auth()->user() ?? null; 
+                                    $productDetailOfUser = $productDetail->user->id ?? null;
                                     $products = \Cart::content();
                                     $check = 0;
-                                    foreach ($products as $key => $item) {
-                                        if ($item->id == $productDetail->id) {
-                                            $check = 1;
-                                            break;
+
+                                    // Thêm điều kiện kiểm tra xem sản phẩm có thuộc về người dùng đang xem hay không
+                                    $isOwner = $user && $user->id === $productDetailOfUser;
+
+                                    if (!$isOwner) {
+                                        foreach ($products as $key => $item) {
+                                            if ($item->id == $productDetail->id) {
+                                                $check = 1;
+                                                break;
+                                            }
                                         }
                                     }
                                 @endphp
-                                {{-- @if ($user->id == $productDetailOfUser) --}}
-                                {{-- @if --}}
-                                @if ($check == 0)
-                                    <a href="{{ route('get.addProduct', $productDetail->id) }}" style="color: #007bff">
-                                        <i class="fa-sharp fa-regular fa-heart"></i>
-                                        <span style="font-size: 12px;">Yêu thích</span>
-                                    </a>
-                                @else
-                                    <a href="{{ route('get.deleteFavourite', $key) }}" style="color: #007bff">
-                                        <i class="fa-solid fa-heart"></i>
-                                        <span style="font-size: 12px;">Hủy yêu thích</span>
-                                    </a>
+                                @if (!$isOwner)
+                                    @if ($check == 0)
+                                        <a href="{{ route('get.addProduct', $productDetail->id) }}" style="color: #007bff">
+                                            <i class="fa-sharp fa-regular fa-heart"></i>
+                                            <span style="font-size: 12px;">Yêu thích</span>
+                                        </a>
+                                    @else
+                                        <a href="{{ route('get.deleteFavourite', $key) }}" style="color: #007bff">
+                                            <i class="fa-solid fa-heart"></i>
+                                            <span style="font-size: 12px;">Hủy yêu thích</span>
+                                        </a>
+                                    @endif
                                 @endif
-                                {{-- @endif --}}
                             </div>
                         </div>
                         <div class="description">
@@ -106,7 +111,7 @@
                                             {{ $productDetail->user->name ?? '' }}
                                         </h3>
                                         <button>
-                                            <span><a href="{{ route('get.viewProfile', $productDetail->user->id) }}">Xem
+                                            <span><a href="{{ route('get.viewProfile', $productDetail->user->id ?? '') }}">Xem
                                                     trang</a></span>
                                             <span><i class="fa-solid fa-angle-right"></i></span>
                                         </button>
@@ -172,18 +177,17 @@
                                 </div>
                             </div>
                             @if (Auth::check())
-                                @if (Auth::user()->id === $productDetail->user->id)
-                                    {{-- <h4>Sản phẩm của bạn đăng</h4> --}}
+                                @if (Auth::user()->id == $productDetail->user->id)
                                     <div class="lead-button">
                                         <a id="delete_alert"
-                                            href="{{ route('get.user.product_sold', $productDetail->id) }}"
+                                            href="{{ route('get.user.product_sold', $productDetail->id ?? '') }}"
                                             class="button-call d-flex">
                                             <div>
                                                 <span><i class="fa-sharp fa-regular fa-eye-slash"></i></span>
                                             </div>
                                             <span>Đã bán / Ẩn tin</span>
                                         </a>
-                                        <a href="{{ route('get.user.product_update', $productDetail->id) }}"
+                                        <a href="{{ route('get.user.product_update', $productDetail->id ?? '') }}"
                                             class="button-chat d-flex">
                                             <div>
                                                 <span><i class="fa-regular fa-pen-to-square"></i></span>

@@ -30,6 +30,8 @@ class ProductController extends Controller
     {
         $products = Product::with('category:id,name', 'user:id,name', 'province:id,name', 'district:id,name', 'ward:id,name')->withCount('images');
 
+        // dd($products);
+
         if ($name = $request->n) // Tìm bằng tên
             $products->where('name', 'like', '%' . $name . '%');
 
@@ -78,24 +80,18 @@ class ProductController extends Controller
                     $data['avatar'] = $file['name'];
                 }
             }
-            // dd($request->all());
             // Thống kế start
             $order_date = $data['order_date'];
             $statistic = Statistic::where('order_date', $order_date)->get();
-
             if ($statistic) {
                 $statistic_count = $statistic->count();
             } else {
                 $statistic_count = 0;
             }
-
             $total_product = 0;
-
             if ($request->status == 1) {
-
                 $total_product = Product::select('id')->where('order_date', $order_date)->count();
                 $total_product += 1;
-
                 if ($statistic_count > 0) {
                     $statistic_update = Statistic::where('order_date', $order_date)->first();
                     $statistic_update->total_product = $total_product;
@@ -154,6 +150,8 @@ class ProductController extends Controller
 
     public function update(ProductRequest $request, $id)
     {
+        // dd($request->all());
+
         try {
             $data = $request->except('_token', 'avatar');
             $data['slug'] = Str::slug($request->name);
@@ -246,12 +244,10 @@ class ProductController extends Controller
                     $statistic_new->save();
                 }
             }
-
             // Thống kế end
 
             // Notification start
             if ($request->status == 2 || $request->status == -1) {
-                // Tạo thông báo số lượng tin nhắn đến start
                 // Tạo thông báo số lượng tin nhắn đến start
                 $options = array(
                     'cluster' => 'ap1',
@@ -263,12 +259,9 @@ class ProductController extends Controller
                     '1616521',
                     $options
                 );
-
                 $data['message'] = 'hello world';
                 $pusher->trigger('my-channel', 'my-event', $data);
                 event(new MyEvent("message sent"));
-                // Tạo thông báo số lượng tin nhắn đến end
-
                 // Tạo thông báo số lượng tin nhắn đến end
                 $sendMessageController = new ControllersSendMessageController();
                 $sendMessageController->sendMessage($request);

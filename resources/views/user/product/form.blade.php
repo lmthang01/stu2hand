@@ -7,23 +7,16 @@
                 <input type="text" name="name" placeholder="Tên sản phẩm" class="form-control"
                     value="{{ old('name', $product->name ?? '') }}">
                 @error('name')
-                    <small id="emailHelp" class="form-text text-danger">{{ $errors->first('name') }}</small>
+                    <small id="" class="form-text text-danger">{{ $errors->first('name') }}</small>
                 @enderror
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Mô tả <span style="color: red;">*</span> </label>
                 <textarea name="description" id="" class="form-control" placeholder="Mô tả ..." cols="30" rows="3">{{ old('description', $product->description ?? '') }}</textarea>
                 @error('description')
-                    <small id="emailHelp" class="form-text text-danger">{{ $errors->first('description') }}</small>
+                    <small id="" class="form-text text-danger">{{ $errors->first('description') }}</small>
                 @enderror
             </div>
-            {{-- <div class="form-group">
-                <label for="exampleInputEmail1">Nội dung</label>
-                <textarea name="content" id="" class="form-control" placeholder="Mô tả ..." cols="30" rows="3">{{ old('content', $product->content ?? '') }}</textarea>
-                @error('content')
-                    <small id="emailHelp" class="form-text text-danger">{{ $errors->first('content') }}</small>
-                @enderror
-            </div> --}}
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
@@ -36,6 +29,9 @@
                                     {{ $item->name }}</option>
                             @endforeach
                         </select>
+                        @error('province_id')
+                            <small id="" class="form-text text-danger">{{ $errors->first('province_id') }}</small>
+                        @enderror
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -47,6 +43,9 @@
                                 <option value="{{ $key }}" selected>{{ $item }}</option>
                             @endforeach
                         </select>
+                        @error('district_id')
+                            <small id="" class="form-text text-danger">{{ $errors->first('district_id') }}</small>
+                        @enderror
                     </div>
                 </div>
                 <div class="col-md-4">
@@ -58,6 +57,9 @@
                                 <option value="{{ $key }}" selected>{{ $item }}</option>
                             @endforeach
                         </select>
+                        @error('ward_id')
+                            <small id="" class="form-text text-danger">{{ $errors->first('ward_id') }}</small>
+                        @enderror
                     </div>
                 </div>
             </div>
@@ -96,20 +98,23 @@
                     @endforeach
                 </select>
                 @error('category_id')
-                    <small id="emailHelp" class="form-text text-danger">{{ $errors->first('category_id') }}</small>
+                    <small id="" class="form-text text-danger">{{ $errors->first('category_id') }}</small>
                 @enderror
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Giá sản phẩm</label>
                 <input type="number" name="price" placeholder="0" class="form-control"
                     value="{{ old('price', $product->price ?? '0') }}">
-                @error('number')
-                    <small id="emailHelp" class="form-text text-danger">{{ $errors->first('number') }}</small>
+                @error('price')
+                    <small id="" class="form-text text-danger">{{ $errors->first('price') }}</small>
                 @enderror
             </div>
             <div class="form-group">
                 <label for="exampleInputPassword1">Hình ảnh</label>
                 <input type="file" class="form-control" name="avatar">
+                @error('avatar')
+                    <small id="" class="form-text text-danger">{{ $errors->first('avatar') }}</small>
+                @enderror
                 @if (isset($product->avatar) && $product->avatar)
                     <img src="{{ pare_url_file($product->avatar) }}"
                         style="width: 60px; height: 60px; border-radius: 10px; margin-top: 10px" alt="">
