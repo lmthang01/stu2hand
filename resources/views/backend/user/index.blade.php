@@ -4,7 +4,7 @@
         <h2>Tài khoản</h2>
         <a href="{{ route('get_admin.user.create') }}" class="btn btn-primary" style="color: white;">Thêm mới</a>
     </div>
-    <div>
+    <div class="d-flex justify-content-between align-items-center">
         <form class="form-inline">
             <div class="form-group mb-2 mr-2">
                 <label for="" class="sr-only">Tên</label>
@@ -22,10 +22,10 @@
                     @endforeach
                 </select>
             </div>
-
             <button type="submit" class="btn btn-primary mb-2">Tìm kiếm</button>
-            
         </form>
+        <a href="{{ route('get_admin.user.indexUserNotLogin') }}" class="btn btn-danger" style="color: white;">Danh sách
+            không hoạt động</a>
     </div>
     <div class="table-responsive">
         <table class="table table-striped table-sm">
@@ -38,7 +38,7 @@
                     <th>Phone</th>
                     <th>Active</th>
                     <th>Type</th>
-                    {{-- <th>Ngày tạo</th> --}}
+                    <th>Đăng nhập lần cuối</th>
                     <th>Thao tác</th>
                 </tr>
             </thead>
@@ -65,7 +65,7 @@
                                 @endforeach
                             @endif
                         </td>
-                        {{-- <td>{{ $item->created_at->format('Y-m-d') }}</td> --}}
+                        <td>{{ $item->last_login_at ?? 'NA' }}</td>
                         {{-- <td>
                         <a href="{{ route('get_admin.user.update', $item->id) }}" class="btn btn-info" style="padding: 5px">Edit</a>
                         <a href="#">|</a>

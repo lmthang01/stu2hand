@@ -24,16 +24,18 @@ class SaveInfoShoppingCart extends FormRequest
         return [
             'address' => 'required',
             'email' => 'required',
-            'phone' => 'required'
+            'phone' => 'required',
+            'note' => 'max:50',
         ];
     }
 
     public function messages()
     {
         return [
-            'email.required' => 'Tên không được để trống!',
+            'email.required' => 'Email không được để trống!',
             'phone.required' => 'Số điện thoại không được để trống!',
             'address.required' => 'Địa chỉ được để trống!',
+            'note.max' => 'Ghi chú tối đa 50 ký tự!',
         ];
     }
 }

@@ -22,12 +22,13 @@ class ProductRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|unique:products,name,' . $this->id . "|max:255",
-            'description' => 'required',
+            'name' => 'required|unique:products,name,' . $this->id . "|max:50|min:15",
+            'description' => 'required|max:255|min:20',
             'category_id' => 'required',
             'province_id' => 'required',
             'district_id' => 'required',
             'ward_id' => 'required',
+            'price' => 'required|numeric|min:10000|max:10000000',
         ];
     }
 
@@ -35,12 +36,19 @@ class ProductRequest extends FormRequest
     {
         return [
             'name.unique' => 'Tên sản phẩm đã tồn tại!',
+            'name.min' => 'Tên sản phẩm tối thiểu 15 ký tự!',
+            'name.max' => 'Tên sản phẩm tối đa 50 ký tự!',
             'name.required' => 'Tên sản phẩm không được để trống!',
             'category_id.required' => 'Danh mục không được để trống!',
             'description.required' => 'Mô tả không được để trống!',
+            'description.max' => 'Mô tả tối đa 255 ký tự!',
+            'description.min' => 'Mô tả tối thiểu 20 ký tự!',
             'province_id.required' => 'Không được để trống!',
-            'district_id.required' => 'Không không được để trống!',
+            'district_id.required' => 'Không được để trống!',
             'ward_id.required' => 'Không được để trống!',
+            'price.required' => 'Giá sản phẩm được để trống!',
+            'price.min' => 'Giá sản phẩm phải lớn hơn 10.000 VNĐ!',
+            'price.max' => 'Giá sản phẩm phải nhỏ hơn 10.000.000 VNĐ!',
         ];
     }
 }

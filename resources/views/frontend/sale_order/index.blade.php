@@ -4,7 +4,7 @@
         <div class="row mt-3" style="background-color: white;">
             <div class="col-lg-12 mt-2">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h2>Đơn bán</h2>
+                    <h2>Đơn hàng đã bán</h2>
                     <a href="/" class="btn btn-primary">Trở về</a>
                 </div>
                 <div class="table-responsive">
@@ -16,7 +16,7 @@
                                 <th>Người mua</th>
                                 <th>Tổng tiền</th>
                                 <th>Trạng thái</th>
-                                <th>Ngày mua</th>
+                                <th>Thanh toán</th>
                                 <th>Chi tiết</th>
                             </tr>
                         </thead>
@@ -57,6 +57,18 @@
                                             </span>
                                             <span class="justify-content-start">
                                                 <i class="fa-solid fa-check"></i></span>
+                                        @elseif($transaction->tr_status == 4)
+                                            <span class="badge badge-success">
+                                                <a href="#" style="text-decoration: none; color: white">Đã nhận
+                                                    hàng</a>
+                                            </span>
+                                            <span class="justify-content-start">
+                                                <i class="fa-solid fa-check"></i></span> <br>
+                                            <span class="badge badge-success">
+                                                <a href="#" style="text-decoration: none; color: white">Đã nhận tiền</a>
+                                            </span>
+                                            <span class="justify-content-start">
+                                                <i class="fa-solid fa-check"></i></span>
                                         @else
                                             <span class="badge badge-secondary">
                                                 <a href="{{ route('get.user.transaction.active', $transaction->id) }}"
@@ -74,7 +86,25 @@
                                             </span>
                                         @endif
                                     </td>
-                                    <td>{{ $transaction->created_at ?? 'NA' }}</td>
+                                    <td>
+                                        @if ($transaction->payment)
+                                            <ul>
+                                                <li>Ngân hàng: {{ $transaction->payment->p_code_bank }}</li>
+                                                <li>Mã thanh toán: {{ $transaction->payment->p_code_vnpay }}</li>
+                                                <li>Tổng tiền:
+                                                    {{ number_format($transaction->payment->p_money, 0, ',', '.') }} VNĐ
+                                                </li>
+                                                <li>Nội dung: {{ $transaction->payment->p_note }}</li>
+                                                <li>Thời gian:
+                                                    {{ date('d-m-Y H:i', strtotime($transaction->payment->p_time)) }}
+                                                </li>
+                                            </ul>
+                                        @else
+                                            <ul>
+                                                <li>Thanh toán khi nhận hàng</li>
+                                            </ul>
+                                        @endif
+                                    </td>
                                     <td>
                                         <a href="{{ route('get.user.transaction.viewOrder', $transaction->id) }}"
                                             class="js_order_item" data-toggle="modal" data-id="{{ $transaction->id }}"

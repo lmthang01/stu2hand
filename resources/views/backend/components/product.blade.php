@@ -6,6 +6,7 @@
             display: inline-block;
             cursor: zoom-in;
         }
+
         .gallery-wrap .img-small-wrap .item-gallery {
             width: 60px;
             height: 60px;
@@ -14,9 +15,26 @@
             display: inline-block;
             overflow: hidden;
         }
+
         .gallery-wrap .img-small-wrap {
             text-align: center;
         }
+
+        .gallery-wrap .img-small-wrap img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+            border-radius: 4px;
+            cursor: zoom-in;
+        }
+
+        .gallery-wrap .img-big-wrap img {
+            max-height: 450px;
+            max-width: 100%;
+            display: inline-block;
+            cursor: zoom-in;
+        }
+
         .gallery-wrap .img-small-wrap img {
             max-width: 100%;
             max-height: 100%;
@@ -33,7 +51,8 @@
                         <article class="gallery-wrap">
                             <div class="img-big-wrap">
                                 <div> <a href="#"><img
-                                            src="{{ isset($product->avatar) ? pare_url_file($product->avatar) : '' }}" style="padding-left: 12px; padding-top: 10px"></a>
+                                            src="{{ isset($product->avatar) ? pare_url_file($product->avatar) : '' }}"
+                                            style="padding-left: 12px; padding-top: 10px"></a>
                                 </div>
                             </div> <!-- slider-product.// -->
                         </article> <!-- gallery-wrap .end// -->
@@ -69,7 +88,7 @@
                             </dl> <!-- item-property-hor .// -->
                             <dl class="param param-feature">
                                 <dt>Số điện thoại</dt>
-                                <dd>{{$product->user->phone ?? '[N\A]'}}</dd>
+                                <dd>{{ $product->user->phone ?? '[N\A]' }}</dd>
                             </dl> <!-- item-property-hor .// -->
                         </article> <!-- card-body.// -->
                     </aside> <!-- col.// -->

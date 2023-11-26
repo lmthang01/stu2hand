@@ -10,6 +10,7 @@ use App\Models\Product;
 use App\Models\Statistic;
 use App\Models\Transaction;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -27,6 +28,11 @@ class HomeController extends Controller
         $toltalProduct = Product::select('id')->count();
         $toltalCategory = Category::select('id')->count();
         $toltalOrder = Transaction::select('id')->count();
+
+        $user = Auth::user();
+        if ($user) {
+            $user->update(['last_login_at' => Carbon::now()]);
+        }
 
         $viewData = [
             'users' => $users,

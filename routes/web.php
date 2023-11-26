@@ -18,6 +18,7 @@ use App\Http\Controllers\Frontend\AuthController as FrontendAuthController;
 use App\Http\Controllers\Frontend\CategoryController as FrontendCategoryController;
 use App\Http\Controllers\Frontend\ProductDetailController;
 use App\Http\Controllers\Frontend\ProfileController as FrontendProfileController;
+use App\Http\Controllers\Frontend\RechargeController;
 use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Frontend\ShoppingCartController;
 use App\Http\Controllers\Frontend\TransactionController as FrontendTransactionController;
@@ -29,6 +30,7 @@ use App\Http\Controllers\User;
 use App\Http\Controllers\User\ProductController as UserProductController;
 use App\Http\Controllers\User\ProfileController as UserProfileController;
 use App\Http\Controllers\User\TransactionController as UserTransactionController;
+use App\Models\Recharge;
 use Chatify\Http\Controllers\MessagesController;
 
 /*
@@ -87,12 +89,13 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'middleware' => 'ch
         Route::post('create', [ProductController::class, 'store'])->name('get_admin.product.store')->middleware('permission:full|product_store');
 
         Route::get('update/{id}', [ProductController::class, 'edit'])->name('get_admin.product.update')->middleware('permission:full|product_update');
+
         Route::post('update/{id}', [ProductController::class, 'update'])->name('get_admin.product.update')->middleware('permission:full|product_update');
 
         Route::get('delete/{id}', [ProductController::class, 'delete'])->name('get_admin.product.delete')->middleware('permission:full|product_delete');
         Route::get('delete-image/{id}', [ProductController::class, 'deleteImage'])->name('get_admin.product.delete_image')->middleware('permission:full|product_delete_image');
 
-        Route::get('/view/detailProduct/{id}', [ProductController::class, 'viewDetailProduct'])->name('get_admin.product.viewDetailProduct')->middleware('permission:full');
+        Route::get('/view/detailProduct/{id}', [ProductController::class, 'viewDetailProduct'])->name('get_admin.product.viewDetailProduct')->middleware('permission:full|detailProduct');
     });
     //Locations
     Route::group(['prefix' => 'location'], function () {
@@ -122,6 +125,9 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'middleware' => 'ch
         Route::post('update/{id}', [UserController::class, 'update'])->name('get_admin.user.update')->middleware('permission:full|user_update');
 
         Route::get('delete/{id}', [UserController::class, 'delete'])->name('get_admin.user.delete')->middleware('permission:full|user_delete');
+
+        // User không đăng nhập
+        Route::get('userNotLogin', [UserController::class, 'indexUserNotLogin'])->name('get_admin.user.indexUserNotLogin');
     });
 
     // Menu
@@ -196,6 +202,11 @@ Route::group(['namespace' => 'Backend', 'prefix' => 'admin', 'middleware' => 'ch
 
         Route::get('/active/{id}', [TransactionController::class, 'actionTransaction'])->name('get_admin.transaction.active')->middleware('permission:full|transaction_active');
     });
+
+    // Danh sách nạp tiền phía admin
+    Route::group(['prefix' => 'recharge'], function () {
+        Route::get('recharge', [RechargeController::class, 'indexAdmin'])->name('get_admin.recharge.index');
+    });
 });
 
 // Frontend User
@@ -242,8 +253,6 @@ Route::group(['namespace' => 'Fontend'], function () {
 });
 
 Route::group(['prefix' => 'gio-hang', 'middleware' => 'CheckLoginUser'], function () {
-
-    // Route::get('/thanh-toan', [ShoppingCartController::class, 'getFormPay'])->name('get.getFormPay');
 
     Route::get('/thanh-toan/{user_id}', [ShoppingCartController::class, 'getFormPay'])->name('get.getFormPay');
 
@@ -311,6 +320,7 @@ Route::group(['namespace' => 'User', 'prefix' => 'account'], function () {
         Route::get('/cancel/{id}', [UserTransactionController::class, 'actionCancel'])->name('get.user.transaction.cancel');
         Route::get('/shipping/{id}', [UserTransactionController::class, 'actionShipping'])->name('get.user.transaction.shipping');
         Route::get('/finish/{id}', [UserTransactionController::class, 'actionFinish'])->name('get.user.transaction.finish');
+        Route::get('/received/{id}', [UserTransactionController::class, 'actionReceived'])->name('get.user.transaction.received');
 
         // Danh sach đơn bán
         Route::get('listSale', [UserTransactionController::class, 'index_sale'])->name('get.user.transaction.index_sale');
@@ -320,6 +330,18 @@ Route::group(['namespace' => 'User', 'prefix' => 'account'], function () {
         Route::get('district', [LocationController::class, 'district'])->name('get_admin.location.district');
         Route::get('ward', [LocationController::class, 'ward'])->name('get_admin.location.ward');
     });
+
+    // Nạp tiền
+
+    Route::get('recharge/index', [RechargeController::class, 'index'])->name('get.index.recharge');
+
+    Route::post('recharge/index', [RechargeController::class, 'saveInfoRecharge']);
+
+    Route::post('recharge/onnline', [RechargeController::class, 'createRechargePayment'])->name('onnline.createRechargePayment');
+
+    Route::get('/vnpay/recharge/return', [RechargeController::class, 'vnpayRechargeReturn'])->name('vnpay.recharge.return');
+
+    Route::get('recharge/ofUser', [RechargeController::class, 'indexOfUser'])->name('get.index.rechargeOfUser');
 });
 
 Route::post('/postMessage', [SendMessageController::class, 'sendMessage'])->name('postMessage');

@@ -109,6 +109,10 @@
                                         <div class="col-md-12">
                                             <textarea class="form-control" name="note" id="" cols="30" rows="4"></textarea>
                                         </div>
+                                         @error('note')
+                                                <small id="noteHelp"
+                                                    class="form-text text-danger">{{ $errors->first('note') }}</small>
+                                            @enderror
                                     </div>
                                     <div class="form-group">
                                         <div class="col-md-12"></div>

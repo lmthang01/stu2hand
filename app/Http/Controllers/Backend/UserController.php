@@ -41,8 +41,27 @@ class UserController extends Controller
         $viewData = [
             'users' => $users,
             'status' => $status,
+            // 'getUsersLogin' => $getUsersLogin,
         ];
         return view('backend.user.index', $viewData)->with('i', (request()->input('page', 1) - 1) * 10);
+    }
+
+    public function indexUserNotLogin(Request $request)
+    {
+        $sub30days = Carbon::now('Asia/Ho_Chi_Minh')->subdays(30);
+        $now = Carbon::now('Asia/Ho_Chi_Minh');
+
+        $getUsersNotLoggedIn = User::where(function ($query) use ($sub30days, $now) {
+            $query->whereNotBetween('last_login_at', [$sub30days, $now])
+                ->orWhereNull('last_login_at');
+        });
+
+        $getUsersNotLoggedIn = $getUsersNotLoggedIn->orderBy('last_login_at', 'ASC')->paginate(10);
+
+        $viewData = [
+            'getUsersNotLoggedIn' => $getUsersNotLoggedIn,
+        ];
+        return view('backend.user.indexUserNotLogin', $viewData)->with('i', (request()->input('page', 1) - 1) * 10);
     }
 
     public function create()
@@ -51,7 +70,7 @@ class UserController extends Controller
         $userType = UserType::all();
 
         $roles = Role::all();
-        
+
         $roleActive = $userHasType = [];
 
 

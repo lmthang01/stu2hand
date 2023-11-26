@@ -28,7 +28,6 @@ class AuthController extends Controller
 
     public function postLogin(Request $request)
     {
-
         // dd($request->all());
         $credentials = [
             'email' => $request->email,
@@ -94,7 +93,6 @@ class AuthController extends Controller
             }
 
             DB::commit();
-
         } catch (\Exception $exception) {
             DB::rollBack();
             Log::error("ERROR => AuthController@store => " . $exception->getMessage());

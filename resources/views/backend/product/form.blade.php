@@ -152,7 +152,7 @@
             </div>
             <div class="form-group">
                 <label for="">Hình ảnh</label>
-                <input type="file" class="form-control" name="avatar">
+                <input type="file" class="form-control">
                 @if (isset($product->avatar) && $product->avatar)
                     <img src="{{ pare_url_file($product->avatar) }}"
                         style="width: 60px; height: 60px; border-radius: 10px; margin-top: 10px" alt="">

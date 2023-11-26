@@ -7,13 +7,14 @@ use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\Transaction;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 class TransactionController extends Controller
 {
     public function index()
     {
-        $transactions = Transaction::with('user', 'userSale')
+        $transactions = Transaction::with('user', 'userSale', 'payment')
             ->where('tr_user_id', Auth::user()->id)
             ->orderByDesc('id')->paginate(10);
 
@@ -111,6 +112,31 @@ class TransactionController extends Controller
 
         $transaction->tr_status = Transaction::STATUS_FINISH; // Cập nhật trạng thái đơn hàng ĐÃ XỬ LÝ
         $transaction->save();
+
+        toastr()->success('Xử lý thành công!', 'Thông báo', ['timeOut' => 1000]);
+        return redirect()->back();
+    }
+
+    public function actionReceived($id)
+    {
+        $transaction = Transaction::find($id);
+
+        $transaction->tr_status = Transaction::STATUS_RECEIVED; // Cập nhật trạng thái đơn hàng ĐÃ XỬ LÝ
+        $transaction->save();
+
+        // Luồng cộng tiền cho user sale 2 trường hợp thanh toán online và khi nhận hàng
+        $user_id_sale = $transaction->tr_user_sale;
+
+        $received = $transaction->tr_total;
+
+        $user = User::findOrFail($user_id_sale);
+
+        $user->total_money += (int)$received; // Cập nhật trạng thái đơn hàng ĐÃ XỬ LÝ
+
+        // dd($user->total_money);
+
+        $user->save();
+
 
         toastr()->success('Xử lý thành công!', 'Thông báo', ['timeOut' => 1000]);
         return redirect()->back();

@@ -47,9 +47,16 @@
                                         <a href="#" style="text-decoration: none; color: white">Đang vận chuyển</a>
                                     </span>
                                 @elseif ($transaction->tr_status == 3)
-                                    <span class="badge badge-Success">
+                                    <span class="badge badge-success">
                                         <a href="#" style="text-decoration: none; color: white">Đã giao</a>
                                     </span>
+                                @elseif($transaction->tr_status == 4)
+                                    <span class="badge badge-success">
+                                        <a href="#" style="text-decoration: none; color: white">Đã nhận
+                                            hàng</a>
+                                    </span>
+                                    <span class="justify-content-start">
+                                        <i class="fa-solid fa-check"></i></span>
                                 @else
                                     <span class="badge badge-secondary">
                                         <a href="{{ route('get_admin.transaction.active', $transaction->id) }}"

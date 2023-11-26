@@ -214,6 +214,9 @@ class ShoppingCartController extends Controller
         return redirect($vnp_Url);
     }
 
+
+
+    // Hàm này dùng cho thanh toán online và nạp tiền
     public function vnpayReturn(Request $request)
     {
         // dd($request->all());

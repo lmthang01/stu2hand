@@ -14,13 +14,15 @@
                 </div>
             </div>
         </div>
-        <div class="d-flex justify-content-between align-items-center mr-3">
-            <h2> </h2>
-            <a href="/" class="btn btn-primary">Trở về</a>
-        </div>
-        <div class="row">
-            @include('user.product.form')
+        <div class="row" style="background-color: #fff;">
+            <div class="col-md-12">
+                <div class="container">
+                    <div class="d-flex justify-content-start align-items-center mt-2">
+                        <a href="/" class="btn btn-primary ml-auto">Trở về</a>
+                    </div>
+                    @include('user.product.form')
+                </div>
+            </div>
         </div>
     </div>
-
 @stop

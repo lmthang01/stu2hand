@@ -17,7 +17,7 @@ class Transaction extends Model
     const STATUS_SHIPPING = 2; // Đang vận chuyển
     const STATUS_FINISH = 3; // Hoàn thành
 
-    const STATUS_CONFIM = 4; // Yêu cầu người mua xác nhận nhận hàng
+    const STATUS_RECEIVED = 4; // Đã nhận
     const STATUS_CANCEL = -1; // Hủy đơn hàng
 
 

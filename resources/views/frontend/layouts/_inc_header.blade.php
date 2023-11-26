@@ -66,6 +66,13 @@
                                                 </h3>
                                             </div>
                                         </div>
+                                        <div>
+                                            <span class="product-info-user-main-icon"><i
+                                                    class="fa-solid fa-money-bill"></i></span>
+                                            <span>Tổng tiền:
+                                                {{ number_format(Auth::user()->total_money ?? 0, 0, ',', '.') }}
+                                                VNĐ</span>
+                                        </div>
                                     </div>
                                     <div class="profile-bottom d-flex flex-column">
                                         <ul class="list-manage">
@@ -119,6 +126,24 @@
                                                             height="24px"
                                                             style="object-fit: contain; margin-right: 12px;">
                                                         <span>Danh sách yêu thích</span>
+                                                    </a>
+                                                </li>
+                                                <li class="item-manage">
+                                                    <a href="{{route("get.index.recharge")}}"
+                                                        class="link-manage d-flex align-items-center">
+                                                        <img src="{{ asset('images/recharge.svg') }}" alt="Thêm mới"
+                                                            class="img-manage" width="24px" height="24px"
+                                                            style="object-fit: contain; margin-right: 12px;">
+                                                        <span>Nạp tiền</span>
+                                                    </a>
+                                                </li>
+                                                <li class="item-manage">
+                                                    <a href="{{ route('get.index.rechargeOfUser') }}"
+                                                        class="link-manage d-flex align-items-center">
+                                                        <img src="{{ asset('images/recharge.svg') }}" alt="Thêm mới"
+                                                            class="img-manage" width="24px" height="24px"
+                                                            style="object-fit: contain; margin-right: 12px;">
+                                                        <span>Lịch sử nạp tiền</span>
                                                     </a>
                                                 </li>
                                                 <h3 class="title-manage">
