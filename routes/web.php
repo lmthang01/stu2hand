@@ -310,6 +310,7 @@ Route::group(['namespace' => 'User', 'prefix' => 'account'], function () {
 
     // Đơn hàng admin
     Route::group(['prefix' => 'transaction'], function () {
+        
         // Danh sách đơn mua
         Route::get('list', [UserTransactionController::class, 'index'])->name('get.user.transaction.index');
 

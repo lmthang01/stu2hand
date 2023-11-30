@@ -83,12 +83,12 @@ class TransactionController extends Controller
         if ($orders) {
             foreach ($orders as $order) {
                 $product = Product::find($order->or_product_id);
-                $product->status = Product::STATUS_SUCCESS; // Cậo nhật trạng thái HIỂN THỊ
+                $product->status = Product::STATUS_SUCCESS; // Cậo nhật trạng thái Đã hiển thị
                 $product->save();
             }
         }
 
-        $transaction->tr_status = Transaction::STATUS_CANCEL; // Cập nhật trạng thái đơn hàng ĐÃ XỬ LÝ
+        $transaction->tr_status = Transaction::STATUS_CANCEL; // Cập nhật trạng thái đơn hàng ĐÃ HỦY
         $transaction->save();
 
         toastr()->success('Xử lý thành công!', 'Thông báo', ['timeOut' => 1000]);

@@ -7,9 +7,9 @@
             <div class="col-lg-12">
 
                 <div class="breadcumb">
-                    <a href="#">{{ $category->name }}</a>
-                    <span class="breadcumb-icon mx-1"><i class="fa-solid fa-angles-right"></i></span>   
-                    {{-- <span>Xe máy</span> --}}
+                    <a href="/">Trang chủ</a>
+                    <span class="breadcumb-icon mx-1"><i class="fa-solid fa-angles-right"></i></span>
+                    <span>{{ $category->name }}</span>
                 </div>
                 <h3 class="title">
                     Khám phá danh mục: {{ $category->name }}
@@ -22,9 +22,9 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
-                    <ul class="list-product mt-4">
+                    <ul class="list-product mt-2">
                         @foreach ($products ?? [] as $item)
-                            @include('frontend.components._inc_product_item', ["item" => $item])
+                            @include('frontend.components._inc_product_item', ['item' => $item])
                         @endforeach
                     </ul>
 
@@ -69,7 +69,7 @@
                             <span ><i class="fa-solid fa-angle-right"></i></span>
                         </div>
                     </div> --}}
-                    
+
                 </div>
                 {{-- <div class="col-lg-3 no-padding">
                     <div class="sidebar mt-4">

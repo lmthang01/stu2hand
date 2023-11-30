@@ -88,7 +88,8 @@ class ShoppingCartController extends Controller
         $data['crated_at'] = Carbon::now();
         $user_id_sale_product = $request['user_id_sale_product'];
         $data['user_id_sale_product'] =  $request['user_id_sale_product'];
-        // Thanh toán online payment = 2
+
+        // Thanh toán online => payment = 2
         if ($request->payment == 2) {
             $allProducts  = Cart::content();
             // Lọc ra các sản phẩm có user_id trùng nhau
@@ -136,13 +137,13 @@ class ShoppingCartController extends Controller
                 if ($orders) {
                     foreach ($orders as $order) {
                         $product = Product::find($order->or_product_id);
-                        $product->status = Product::STATUS_FINISH; // Cậo nhật trạng thái HIỂN THỊ
+                        $product->status = Product::STATUS_FINISH;
                         $product->save();
                     }
                 }
             }
             toastr()->success('Đặt hàng thành công', 'Thông báo', ['timeOut' => 1000]);
-            return redirect('/');
+            return redirect()->route('get.user.transaction.index');
         }
     }
 
@@ -258,6 +259,14 @@ class ShoppingCartController extends Controller
                                 'updated_at' => Carbon::now(),
                             ]);
                             Cart::remove($key);
+                        }
+                    }
+                    $orders = Order::where('or_transaction_id', $transactionID)->get();
+                    if ($orders) {
+                        foreach ($orders as $order) {
+                            $product = Product::find($order->or_product_id);
+                            $product->status = Product::STATUS_FINISH; // Cậo nhật trạng thái ẨN TIN ĐÃ BÁN
+                            $product->save();
                         }
                     }
                 }

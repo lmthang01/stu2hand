@@ -86,7 +86,7 @@
                                     <div class="form-group">
                                         <div class="col-md-12"><strong>Email:</strong></div>
                                         <div class="col-md-12">
-                                            <input type="text" name="email" class="form-control"
+                                            <input type="email" name="email" class="form-control"
                                                 value="{{ get_data_user('web', 'email') }}" />
                                             @error('email')
                                                 <small id="emailHelp"
@@ -96,7 +96,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-md-12"><strong>Số điện thoại: </strong></div>
-                                        <div class="col-md-12"><input type="text" name="phone" class="form-control"
+                                        <div class="col-md-12"><input type="number" name="phone" class="form-control"
                                                 value="{{ get_data_user('web', 'phone') }}" />
                                             @error('phone')
                                                 <small id="phoneHelp"

@@ -16,7 +16,7 @@ class TransactionController extends Controller
 
         // dd($transactions);
         if ($name = $request->n) // Tìm bằng tên
-            $transactions->where('tr_phone', 'like', '%' . $name . '%');
+            $transactions->where('id', 'like', '%' .$name . '%');
 
         $transactions = $transactions
             ->orderByDesc('id')

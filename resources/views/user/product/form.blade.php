@@ -103,10 +103,21 @@
             </div>
             <div class="form-group">
                 <label for="exampleInputEmail1">Giá sản phẩm</label>
-                <input type="number" name="price" placeholder="0" class="form-control"
-                    value="{{ old('price', $product->price ?? '0') }}">
+                <input type="number" name="price" placeholder="" class="form-control"
+                    value="{{ old('price', $product->price ?? '') }}">
                 @error('price')
                     <small id="" class="form-text text-danger">{{ $errors->first('price') }}</small>
+                @enderror
+            </div>
+            <div class="form-group">
+                <input type="hidden" name="total_money" value="{{ Auth::user()->total_money ?? '' }}">
+                <label for="exampleInputEmail1">Phí đăng bán <span style="color: red;">10%</span> giá sản phẩm</label>
+                <input readonly type="number" name="fee" placeholder="" class="form-control"
+                    value="{{ old('fee', $product->fee ?? '') }}">
+                @error('fee')
+                    <small id="" class="form-text text-danger">{{ $errors->first('fee') }}</small>
+                    <small id="" class="form-text text-danger">Số tiền hiện tại của bạn là
+                        {{ Auth::user()->total_money ?? 'N\A' }}</small>
                 @enderror
             </div>
             <div class="form-group">
@@ -165,6 +176,34 @@
 
 <!-- script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.2/themes/fas/theme.min.js"></script -->
 <script src="https://cdn.jsdelivr.net/gh/kartik-v/bootstrap-fileinput@5.5.2/js/locales/LANG.js"></script>
+
+<script>
+    // Đảm bảo rằng trang đã tải hoàn toàn trước khi thực hiện các thao tác JavaScript
+    document.addEventListener("DOMContentLoaded", function() {
+        // Lấy phần tử giá sản phẩm và phí từ DOM
+        var priceInput = document.querySelector('input[name="price"]');
+        var feeInput = document.querySelector('input[name="fee"]');
+
+        // Thêm sự kiện "input" để theo dõi thay đổi giá sản phẩm
+        priceInput.addEventListener("input", function() {
+            // Lấy giá trị của giá sản phẩm
+            var price = parseFloat(priceInput.value);
+
+            // Kiểm tra xem giá có phải là một số hợp lệ hay không
+            if (!isNaN(price)) {
+                // Tính phí (10% giá sản phẩm)
+                var fee = price * 0.1;
+
+                // Hiển thị phí trong ô nhập liệu phí
+                feeInput.value = fee.toFixed(0); // Giữ chỉ hai chữ số sau dấu thập phân
+            } else {
+                // Nếu giá không hợp lệ, hiển thị 0.00 trong ô nhập liệu phí
+                feeInput.value = "0.00";
+            }
+        });
+    });
+</script>
+
 
 <script>
     $.ajaxSetup({

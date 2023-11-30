@@ -60,7 +60,7 @@ class ProductController extends Controller
     }
 
     public function store(ProductRequest $request)
-    { 
+    {
         // dd($request->all());
         try {
             $data = $request->except('_token', 'avatar');
@@ -103,6 +103,14 @@ class ProductController extends Controller
             if ($request->file) {
                 $this->sysncAlbumImageAndProduct($request->file, $product->id);
             }
+
+            // Trừ tiền phí đăng tin bán start
+            $user = Auth::user();
+            $user->total_money -= $request->fee;
+            $user->save();
+            DB::commit();
+            // Trừ tiền phí đăng tin bán end
+
         } catch (\Exception $exception) {
             Log::error("ERROR => ProductControllerOfUser@store => " . $exception->getMessage());
             toastr()->error('Thêm mới thất bại!', 'Thông báo', ['timeOut' => 2000]);

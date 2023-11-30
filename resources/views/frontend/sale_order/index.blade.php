@@ -24,7 +24,7 @@
                             @foreach ($transactions_sale ?? [] as $transaction)
                                 <tr>
                                     <td class="text-center">{{ ++$i }}</td>
-                                    <td>DH{{ $transaction->id ?? 'NA' }}</td>
+                                    <td>{{ $transaction->id ?? 'NA' }}</td>
                                     <td>{{ $transaction->user->name ?? 'NA_product' }}</td>
                                     <td>{{ number_format($transaction->tr_total, 0, ',', '.') }} VNĐ</td>
                                     <td>
@@ -65,10 +65,23 @@
                                             <span class="justify-content-start">
                                                 <i class="fa-solid fa-check"></i></span> <br>
                                             <span class="badge badge-success">
-                                                <a href="#" style="text-decoration: none; color: white">Đã nhận tiền</a>
+                                                <a href="#" style="text-decoration: none; color: white">Đã nhận
+                                                    tiền</a>
                                             </span>
                                             <span class="justify-content-start">
                                                 <i class="fa-solid fa-check"></i></span>
+                                        @elseif($transaction->tr_status == 0 && $transaction->tr_type_payment == 0)
+                                            <span class="badge badge-secondary">
+                                                <a href="{{ route('get.user.transaction.active', $transaction->id) }}"
+                                                    style="text-decoration: none; color: white">Chờ xử lý</a>
+                                            </span>
+                                            <span class="justify-content-start">
+                                                <i class="fa-regular fa-pen-to-square fa-3 icon"></i>
+                                            </span>
+                                            <span class="badge badge-success">
+                                                <a href="#" style="text-decoration: none; color: white">Đã chuyển
+                                                    tiền</a>
+                                            </span>
                                         @else
                                             <span class="badge badge-secondary">
                                                 <a href="{{ route('get.user.transaction.active', $transaction->id) }}"

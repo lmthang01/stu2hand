@@ -24,7 +24,7 @@ return new class extends Migration
             $table->tinyInteger('status')->nullable()->default(0);
             $table->date('order_date')->nullable();
             $table->rememberToken();
-            
+            $table->integer('total_money')->nullable()->default(0);
             $table->timestamp('last_login_at')->nullable();
             $table->timestamps();
         });

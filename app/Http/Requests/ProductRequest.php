@@ -29,6 +29,7 @@ class ProductRequest extends FormRequest
             'district_id' => 'required',
             'ward_id' => 'required',
             'price' => 'required|numeric|min:10000|max:10000000',
+            'fee' => 'numeric|max:' . $this->input('total_money'),
         ];
     }
 
@@ -49,6 +50,7 @@ class ProductRequest extends FormRequest
             'price.required' => 'Giá sản phẩm được để trống!',
             'price.min' => 'Giá sản phẩm phải lớn hơn 10.000 VNĐ!',
             'price.max' => 'Giá sản phẩm phải nhỏ hơn 10.000.000 VNĐ!',
+            'fee.max' => 'Phí giao dịch lớn hơn tiền trong tài khoản!',
         ];
     }
 }

@@ -79,7 +79,9 @@ class AuthController extends Controller
                     'user_id' => $user->id
                 ]);
 
-                // dd($request->all());
+                // Thêm total_money cho user 20.000 khi đăng ký mới
+                $user->total_money = 20000;
+                $user->save();
 
                 DB::table('profile')->insert([
                     'province_id' => $request->province_id,

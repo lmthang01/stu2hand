@@ -9,7 +9,7 @@
             <div class="form-group mb-2 mr-2">
                 <label for="" class="sr-only">Tên</label>
                 <input type="text" name="n" class="form-control" value="{{ Request::get('n') }}"
-                    placeholder="Nhập số điện thoại">
+                    placeholder="Nhập mã đơn hàng">
             </div>
             <button type="submit" class="btn btn-primary mb-2">Tìm kiếm</button>
         </form>
@@ -33,7 +33,7 @@
                     @foreach ($transactions ?? [] as $transaction)
                         <tr>
                             <td>{{ ++$i }}</td>
-                            <td>DH{{ $transaction->id }}</td>
+                            <td>{{ $transaction->id }}</td>
                             <td>{{ $transaction->userSale->name ?? '[N\A]' }}</td>
                             <td>{{ $transaction->user->name ?? '[N\A]' }}</td>
                             <td>{{ number_format($transaction->tr_total, 0, ',', '.') }} VNĐ</td>
@@ -62,9 +62,9 @@
                                         <a href="{{ route('get_admin.transaction.active', $transaction->id) }}"
                                             style="text-decoration: none; color: white">Chờ xử lý</a>
                                     </span>
-                                    <span class="badge badge-danger">
+                                    {{-- <span class="badge badge-danger">
                                         <a href="#" style="text-decoration: none; color: white">Hủy</a>
-                                    </span>
+                                    </span> --}}
                                 @endif
                             </td>
                             <td>

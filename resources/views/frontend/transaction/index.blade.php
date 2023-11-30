@@ -26,14 +26,8 @@
                             @foreach ($transactions ?? [] as $transaction)
                                 <tr>
                                     <td class="text-center">{{ ++$i }}</td>
-                                    <td>DH{{ $transaction->id ?? 'NA' }}</td>
-
-                                    {{-- {{dd($transaction->userSale->name)}} --}}
-
+                                    <td>{{ $transaction->id ?? 'NA' }}</td>
                                     <td>{{ $transaction->userSale->name ?? 'NA_product' }}</td>
-
-                                    {{-- {{dd($transaction->order)}} --}}
-
                                     <td>{{ number_format($transaction->tr_total, 0, ',', '.') }} VNĐ</td>
                                     <td>
                                         @if ($transaction->tr_status == 1)
@@ -85,6 +79,18 @@
                                             </span>
                                             <span class="justify-content-start">
                                                 <i class="fa-solid fa-check"></i></span>
+                                        @elseif($transaction->tr_status == 0 && $transaction->tr_type_payment == 1)
+                                            <span class="badge badge-secondary">
+                                                <a href="#" style="text-decoration: none; color: white">Chờ xử lý</a>
+                                            </span>
+                                            <span class="justify-content-start">
+                                                <i class="fa-solid fa-check"></i></span>
+                                            <span class="badge badge-danger">
+                                                <a href="{{ route('get.user.transaction.cancel', $transaction->id) }}" style="text-decoration: none; color: white">Hủy đơn</a>
+                                            </span>
+                                            <span class="justify-content-start">
+                                                <i class="fa-regular fa-pen-to-square fa-3 icon"></i>
+                                            </span>
                                         @else
                                             <span class="badge badge-secondary">
                                                 <a href="#" style="text-decoration: none; color: white">Chờ xử lý</a>
