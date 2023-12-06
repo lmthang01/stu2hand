@@ -16,7 +16,7 @@ class CheckLoginAdmin
      */
     public function handle(Request $request, Closure $next): Response
     {
-        // Log::info("------- inint ----------");
+        Log::info("------- inint ----------Admin");
         if (Auth::check()) {
             $userLogin = Auth::user();
             // dump($userLogin);

@@ -32,13 +32,14 @@ class AuthController extends Controller
         $credentials = [
             'email' => $request->email,
             'password' =>  $request->password,
+            'status' => 2,
         ];
 
         if (Auth::attempt($credentials)) {
             return redirect()->route('get.home');
         }
 
-        return redirect()->back();
+        return redirect()->back()->with('error', 'Đăng nhập không thành công!');
     }
 
     public function register()

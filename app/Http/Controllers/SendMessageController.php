@@ -75,7 +75,7 @@ class SendMessageController extends Controller
         // Tạo thông báo số lượng tin nhắn đến end
         $messages = Notification::where('to_user_id', '=', Auth::user()->id)
             ->latest()
-            ->limit(5)
+            ->limit(10)
             ->get();
 
         return response()->json(['messages' => $messages]);

@@ -112,8 +112,13 @@
             <div class="form-group">
                 <input type="hidden" name="total_money" value="{{ Auth::user()->total_money ?? '' }}">
                 <label for="exampleInputEmail1">Phí đăng bán <span style="color: red;">10%</span> giá sản phẩm</label>
-                <input readonly type="number" name="fee" placeholder="" class="form-control"
-                    value="{{ old('fee', $product->fee ?? '') }}">
+                @if (isset($product))
+                    <input readonly type="number" name="fee" placeholder="" class="form-control"
+                        value="{{ old('fee', $product->price * 0.1 ?? '') }}">
+                @else
+                    <input readonly type="number" name="fee" placeholder="" class="form-control"
+                        value="">
+                @endif
                 @error('fee')
                     <small id="" class="form-text text-danger">{{ $errors->first('fee') }}</small>
                     <small id="" class="form-text text-danger">Số tiền hiện tại của bạn là

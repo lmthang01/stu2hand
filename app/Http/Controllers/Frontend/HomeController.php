@@ -22,7 +22,7 @@ class HomeController extends Controller
         $slides = Slide::all();
 
         $productNews = $productNews
-            ->orderByDesc('id')
+            ->orderBy('created_at','desc')
             ->paginate(10);
 
         $user = Auth::user();

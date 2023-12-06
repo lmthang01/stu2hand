@@ -31,7 +31,7 @@ class ProductController extends Controller
         if ($s = $request->status)
             $products->where('status', $s);
         $products = $products
-            ->orderByDesc('id')
+            ->orderBy('created_at', 'desc')
             ->paginate(5);
 
         $model  = new Product();
@@ -63,7 +63,7 @@ class ProductController extends Controller
     {
         // dd($request->all());
         try {
-            $data = $request->except('_token', 'avatar');
+            $data = $request->except('_token', 'avatar', 'total_money');
             $data['slug'] = Str::slug($request->name);
             $data['created_at'] = Carbon::now();
             $data['order_date'] = Carbon::now('Asia/Ho_Chi_Minh')->format('Y-m-d');
@@ -146,7 +146,7 @@ class ProductController extends Controller
     public function update(ProductRequest $request, $id)
     {
         try {
-            $data = $request->except('_token', 'avatar');
+            $data = $request->except('_token', 'avatar', 'total_money');
             $data['slug'] = Str::slug($request->name);
             $data['updated_at'] = Carbon::now();
             if ($request->avatar) {
@@ -278,4 +278,21 @@ class ProductController extends Controller
         return redirect()->route('get.user.product_index');
     }
     // Ẩn tin đã bán end
+    // Đẩy tin start
+    public function pushPost($id)
+    {
+        try {
+            $product = Product::find($id);
+            if (!$product) {
+                toastr()->error('Sản phẩm không tồn tại!', 'Thông báo', ['timeOut' => 2000]);
+                return redirect()->route('get.user.product_index');
+            }
+            $product->update(['created_at' => Carbon::now()]);
+            toastr()->success('Cập nhật ngày đăng thành công!', 'Thông báo', ['timeOut' => 2000]);
+            return redirect()->route('get.user.product_index');
+        } catch (\Exception $exception) {
+            Log::error("ERROR => ProductController@store => " . $exception->getMessage());
+            toastr()->error('Cập nhật thất bại!', 'Thông báo', ['timeOut' => 2000]);
+        }
+    }
 }

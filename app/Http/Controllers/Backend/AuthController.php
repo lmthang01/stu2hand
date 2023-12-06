@@ -29,7 +29,7 @@ class AuthController extends Controller
 
             return redirect()->route('get_admin.home');
         }
-        return redirect()->back();
+        return redirect()->back()->with('error', 'Đăng nhập không thành công!');
     }
 
     public function logout(Request $request)

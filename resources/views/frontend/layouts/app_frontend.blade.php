@@ -264,6 +264,7 @@
 
     <script type="text/javascript">
         $(function() {
+            // Xác nhận xóa
             $(document).on('click', '#delete_alert', function(e) {
                 e.preventDefault();
                 var link = $(this).attr("href");
@@ -271,6 +272,27 @@
                 Swal.fire({
                     title: 'Bạn có chắc muốn xóa không ?',
                     text: "Bạn không thể khôi phục lại dữ liệu sau khi xóa !",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'OK'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = link;
+
+                    }
+                })
+
+            })
+            // Xác nhận đẩy tin
+            $(document).on('click', '#update_post', function(e) {
+                e.preventDefault();
+                var link = $(this).attr("href");
+                // console.log(link);
+                Swal.fire({
+                    title: 'Bạn có chắc muốn đẩy tin lên trang nhất không?',
+                    text: "Bạn sẽ cập nhật lại ngày đăng khi đẩy tin!",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonColor: '#3085d6',

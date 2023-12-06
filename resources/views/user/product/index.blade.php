@@ -75,7 +75,7 @@
                                         <span style="font-size: 12px">{{ $item->province->name ?? '...' }} -
                                             {{ $item->district->name ?? '...' }} - {{ $item->ward->name ?? '...' }}</span>
                                         <br>
-                                        @if ($item->status == 1 || $item->status == 2)
+                                        @if ($item->status == 1)
                                             <span class="badge btn-user badge-primary text-decoration-none"><a
                                                     style="font-size: 13px"
                                                     href="{{ route('get.user.product_update', $item->id) }}"><span
@@ -84,34 +84,17 @@
                                                     id="delete_alert" style="font-size: 13px;"
                                                     href="{{ route('get.user.product_sold', $item->id) }}"><span
                                                         class="text-white">Đã bán / Ẩn tin</span></a></span>
-                                        @elseif($item->status == 3 || $item->status == -1)
-                                            {{-- <span class="badge btn-user badge-primary text-decoration-none"><a
-                                                    style="font-size: 13px"
-                                                    href="{{ route('get.user.product_update', $item->id) }}"><span
-                                                        class="text-white">Cập nhật</span></a></span> --}}
-                                            {{-- <span class="badge btn-user badge-success text-decoration-none"><a
+                                        @elseif($item->status == 2)
+                                            <span class="badge btn-user badge-primary text-decoration-none"><a
+                                                    style="font-size: 13px" id="update_post"
+                                                    href="{{ route('get.user.pushPost', $item->id) }}"><span
+                                                        class="text-white">Đẩy
+                                                        tin</span></a></span>
+                                            <span class="badge btn-user badge-success text-decoration-none"><a
                                                     id="delete_alert" style="font-size: 13px;"
                                                     href="{{ route('get.user.product_sold', $item->id) }}"><span
-                                                        class="text-white">Đã bán / Ẩn tin</span></a></span> --}}
-                                        @else
-                                            {{-- <span disabled class="badge btn-user badge-primary text-decoration-none"><a
-                                                    style="font-size: 13px"
-                                                    href="{{ route('get.user.product_update', $item->id) }}"><span
-                                                        class="text-white">Cập nhật</span></a></span>
-                                            <span disabled class="badge btn-user badge-success text-decoration-none"><a
-                                                    id="delete_alert" style="font-size: 13px;"
-                                                    href="{{ route('get.user.product_sold', $item->id) }}"><span
-                                                        class="text-white">Đã bán / Ẩn tin</span></a></span> --}}
+                                                        class="text-white">Đã bán / Ẩn tin</span></a></span>
                                         @endif
-
-                                        {{-- <span class="badge btn-user badge-primary text-decoration-none"><a
-                                                style="font-size: 13px"
-                                                href="{{ route('get.user.product_update', $item->id) }}"><span
-                                                    class="text-white">Cập nhật</span></a></span>
-                                        <span class="badge btn-user badge-success text-decoration-none"><a id="delete_alert"
-                                                style="font-size: 13px;"
-                                                href="{{ route('get.user.product_sold', $item->id) }}"><span
-                                                    class="text-white">Đã bán / Ẩn tin</span></a></span> --}}
                                     </td>
                                     <td>
                                         <span style="font-size: 13px">{{ $item->category->name ?? '[N\A]' }}</span>

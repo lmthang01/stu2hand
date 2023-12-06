@@ -19,11 +19,11 @@ return new class extends Migration
             $table->string('avatar')->nullable();
             $table->tinyInteger('status')->default(1);
             $table->tinyInteger('hot')->default(0);
-            $table->integer('category_id')->default(0); // Liên kết table category
+            $table->integer('category_id')->default(0); // Liên kết table category set default
             $table->integer('price')->default(0);
             $table->integer('number')->default(0);
             $table->tinyInteger('sale')->default(0);
-            $table->integer('user_id')->default(0); // Liên kết table user
+            $table->integer('user_id')->default(0); // Liên kết table user set default
             $table->text('content')->nullable();
             $table->timestamps();
         });
