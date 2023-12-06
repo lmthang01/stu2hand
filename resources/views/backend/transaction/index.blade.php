@@ -1,8 +1,21 @@
 @extends('backend.layouts.app_backend')
 @section('content')
-    <div class="d-flex justify-content-between align-items-center">
-        <h2>Danh sách đơn hàng</h2>
-        <a href="#" class="btn btn-primary" style="color: white;">Thêm mới</a>
+    <h2>Tổng quan</h2>
+    <div class="row mt-3">
+        <div class="col-sm-3">
+            <div class="box p-3 mb-2 bg-primary text-white rounded text-center">
+                <a href="#" class="text-decoration-none">
+                    <h5 class="text-white">Số lượng đơn hàng <b>{{ $toltalTransasction }}</b></h5>
+                </a>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="box p-3 mb-2 bg-success text-white rounded text-center">
+                <a href="#" class="text-decoration-none">
+                    <h5 class="text-white">Tổng tiền <b>{{ number_format($totalMoney, 0, ',', '.') }} VNĐ</b></h5>
+                </a>
+            </div>
+        </div>
     </div>
     <div>
         <form class="form-inline">
@@ -99,7 +112,7 @@
                                                     <p><i class="fa-regular fa-eye"></i> - Xem chi tiết</p>
                                                 </a>
                                             </li>
-                                            <li>
+                                            {{-- <li>
                                                 <a href="#"
                                                     class="d-flex align-items-center p-2 text-decoration-none">
                                                     <p><i class="fa-solid fa-pen"></i> - Cập nhật</p>
@@ -110,7 +123,7 @@
                                                     id="delete_alert">
                                                     <p><i class="fa-regular fa-trash-can"></i> - Xóa</p>
                                                 </a>
-                                            </li>
+                                            </li> --}}
                                         </ul>
                                     </div>
                                 </div>

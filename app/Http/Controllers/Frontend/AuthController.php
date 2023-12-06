@@ -32,7 +32,7 @@ class AuthController extends Controller
         $credentials = [
             'email' => $request->email,
             'password' =>  $request->password,
-            'status' => 2,
+            'status' => [2, 1],
         ];
 
         if (Auth::attempt($credentials)) {

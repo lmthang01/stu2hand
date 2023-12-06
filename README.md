@@ -267,6 +267,8 @@
 #21. ShoppingCart laravel 10: https://github.com/mindscms/laravelshoppingcart
 Giao diện cart https://bootsnipp.com/snippets/ypqoW
 
+In pdf https://github.com/barryvdh/laravel-dompdf
+
 
 
 

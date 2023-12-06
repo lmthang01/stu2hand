@@ -48,7 +48,7 @@ class UserController extends Controller
 
     public function indexUserNotLogin(Request $request)
     {
-        $sub30days = Carbon::now('Asia/Ho_Chi_Minh')->subdays(30);
+        $sub30days = Carbon::now('Asia/Ho_Chi_Minh')->subdays(60);
         $now = Carbon::now('Asia/Ho_Chi_Minh');
 
         $getUsersNotLoggedIn = User::where(function ($query) use ($sub30days, $now) {

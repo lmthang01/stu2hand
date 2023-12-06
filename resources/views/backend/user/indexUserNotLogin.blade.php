@@ -1,7 +1,7 @@
 @extends('backend.layouts.app_backend')
 @section('content')
     <div class="d-flex justify-content-between align-items-center">
-        <h2>Danh sách tài khoản không hoạt động trong 30 ngày</h2>
+        <h2>Danh sách tài khoản không hoạt động trong 60 ngày</h2>
         <a href="{{ route('get_admin.user.index') }}" class="btn btn-primary" style="color: white;">Trở về</a>
     </div>
     <div class="d-flex justify-content-between align-items-center">

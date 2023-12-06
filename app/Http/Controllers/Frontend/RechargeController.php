@@ -21,9 +21,15 @@ class RechargeController extends Controller
         return view('frontend.recharge.index');
     }
 
-    public function indexAdmin()
+    public function indexAdmin(Request $request)
     {
         $recharges = Recharge::with('user:id,name');
+
+        $toltalRecharge = Recharge::select('id')->count();
+        $totalMoney = Recharge::sum('total_money'); // Lấy tổng giá trị của tr_total
+
+        if ($name = $request->n) // Tìm bằng tên
+            $recharges->where('id', 'like', '%' . $name . '%');
 
         $recharges = $recharges
             ->orderByDesc('id')
@@ -31,7 +37,8 @@ class RechargeController extends Controller
 
         $viewData = [
             'recharges' => $recharges,
-            // 'category' => $category,
+            'toltalRecharge' => $toltalRecharge,
+            'totalMoney' => $totalMoney,
 
         ];
 
@@ -174,7 +181,7 @@ class RechargeController extends Controller
                 ];
 
                 Payment::insert($dataPayment);
-                
+
                 toastr()->success('Nạp tiền hàng thành công!', 'Thông báo', ['timeOut' => 1000]);
                 DB::commit();
                 return view('frontend.vnpay.vnpay_return', compact('vnpayData'));

@@ -18,6 +18,7 @@
                                 <th>Trạng thái</th>
                                 <th>Thanh toán</th>
                                 <th>Chi tiết</th>
+                                <th>Thao tác</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -121,8 +122,12 @@
                                     <td>
                                         <a href="{{ route('get.user.transaction.viewOrder', $transaction->id) }}"
                                             class="js_order_item" data-toggle="modal" data-id="{{ $transaction->id }}"
-                                            data-target="#myModelOrder" style="padding: 5px" id=""><i
+                                            data-target="#myModelOrder" style="padding: 5px" id="">Xem <i
                                                 class="fa-solid fa-eye"></i></a>
+                                    </td>
+                                    <td>
+                                        <a href="{{ route('get.user.exportPDF', $transaction->id) }}">In <i
+                                                class="fa-solid fa-print"></i></a>
                                     </td>
                                 </tr>
                             @endforeach

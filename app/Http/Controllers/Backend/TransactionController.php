@@ -14,9 +14,11 @@ class TransactionController extends Controller
     {
         $transactions = Transaction::with('user:id,name', 'payment', 'userSale:id,name');
 
-        // dd($transactions);
+        $toltalTransasction = Transaction::select('id')->count();
+        $totalMoney = Transaction::sum('tr_total'); // Lấy tổng giá trị của tr_total
+
         if ($name = $request->n) // Tìm bằng tên
-            $transactions->where('id', 'like', '%' .$name . '%');
+            $transactions->where('id', 'like', '%' . $name . '%');
 
         $transactions = $transactions
             ->orderByDesc('id')
@@ -24,6 +26,8 @@ class TransactionController extends Controller
 
         $viewData = [
             'transactions' => $transactions,
+            'toltalTransasction' => $toltalTransasction,
+            'totalMoney' => $totalMoney,
         ];
         return view('backend.transaction.index', $viewData)->with('i', (request()->input('page', 1) - 1) * 10);
     }
@@ -58,6 +62,5 @@ class TransactionController extends Controller
 
         toastr()->success('Xử lý thành công!', 'Thông báo', ['timeOut' => 1000]);
         return redirect()->back();
-
     }
 }

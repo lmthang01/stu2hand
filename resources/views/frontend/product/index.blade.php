@@ -47,7 +47,7 @@
                             <p class="product-detail-price">{{ number_format($productDetail->price, 0, ',', '.') }} đ</p>
                             <div class="btn">
                                 @php
-                                    $user = auth()->user() ?? null; 
+                                    $user = auth()->user() ?? null;
                                     $productDetailOfUser = $productDetail->user->id ?? null;
                                     $products = \Cart::content();
                                     $check = 0;
@@ -177,7 +177,7 @@
                                 </div>
                             </div>
                             @if (Auth::check())
-                                @if (Auth::user()->id == $productDetail->user->id)
+                                @if (Auth::user()->id == isset($productDetail->user) ? $productDetail->user->id : '')
                                     <div class="lead-button">
                                         <a id="delete_alert"
                                             href="{{ route('get.user.product_sold', $productDetail->id ?? '') }}"
@@ -205,7 +205,8 @@
                                             </div>
                                             <span>Số để gọi</span>
                                         </a>
-                                        <a target="_blank" href="{{ route('user_id_to_chat', $productDetail->user->id) }}"
+                                        <a target="_blank"
+                                            href="{{ route('user_id_to_chat', isset($productDetail->user) ? $productDetail->user->id : '') }}"
                                             class="button-chat d-flex">
                                             <div>
                                                 <span><i class="fa-brands fa-rocketchat"></i></span>

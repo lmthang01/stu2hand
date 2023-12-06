@@ -254,6 +254,8 @@ Route::group(['namespace' => 'User', 'prefix' => 'account'], function () {
         Route::get('/received/{id}', [UserTransactionController::class, 'actionReceived'])->name('get.user.transaction.received');
         // Danh sach đơn bán
         Route::get('listSale', [UserTransactionController::class, 'index_sale'])->name('get.user.transaction.index_sale');
+        // In đơn bán
+        Route::get('/exportPDF/{id}', [UserTransactionController::class, 'exportPDF'])->name('get.user.exportPDF');
     });
     Route::group(['prefix' => 'location'], function () {
         Route::get('district', [LocationController::class, 'district'])->name('get_admin.location.district');

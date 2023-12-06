@@ -6,9 +6,11 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Profile;
 use App\Models\Transaction;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class TransactionController extends Controller
 {
@@ -47,7 +49,15 @@ class TransactionController extends Controller
 
             $orders = Order::with('product', 'transaction')->where('or_transaction_id', $id)->get();
 
-            $html = view('backend.components.order', compact('orders'))->render();
+            // Tìm $userSaleIds = tr_user_sale có trong transaction
+            $userSaleIds = Transaction::find($id);
+
+            $profile = Profile::where('user_id', $userSaleIds->tr_user_sale)
+                ->where('status', 1)
+                ->first();
+
+
+            $html = view('backend.components.order', compact('orders', 'profile'))->render();
 
             return \response()->json($html);
         }
@@ -140,5 +150,20 @@ class TransactionController extends Controller
 
         toastr()->success('Xử lý thành công!', 'Thông báo', ['timeOut' => 1000]);
         return redirect()->back();
+    }
+
+    // In hóa đơn ra pdf
+    public function exportPDF($id)
+    {
+        $orders = Order::with('product', 'transaction')->where('or_transaction_id', $id)->get();
+        $userSaleIds = Transaction::find($id);
+        $profile = Profile::where('user_id', $userSaleIds->tr_user_sale)
+            ->where('status', 1)
+            ->first();
+        $pdf = Pdf::loadView('frontend.sale_order.invoice', [
+            'orders' => $orders,
+            'profile' => $profile
+        ]);
+        return $pdf->download('invoice.pdf');
     }
 }
